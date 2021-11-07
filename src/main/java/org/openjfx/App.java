@@ -2,8 +2,6 @@ package org.openjfx;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class App extends Application {
@@ -11,10 +9,20 @@ public class App extends Application {
     @Override
     public void start(Stage stage) {
 
-        var label = new Label("Hello, JavaFX ");
-        var scene = new Scene(new StackPane(label), 640, 480);
+        double width = 640;
+        double height = 480;
+        int numberOfPhilosophers = 5;
+
+        MyCanvas canvas = new MyCanvas(width, height);
+        MyPane pane = new MyPane(canvas, numberOfPhilosophers);
+        Scene scene = new Scene(pane, width, height);
+
+        pane.drawInitialFormation();
+
+        stage.setTitle("Philosophers");
         stage.setScene(scene);
         stage.show();
+
     }
 
     public static void main(String[] args) {
