@@ -13,11 +13,11 @@ public class App extends Application {
         double height = 480;
         int numberOfPhilosophers = 5;
 
-        MyCanvas canvas = new MyCanvas(width, height);
-        MyPane pane = new MyPane(canvas, numberOfPhilosophers);
+        PhilosophersPane pane = new PhilosophersPane(width, height, numberOfPhilosophers);
         Scene scene = new Scene(pane, width, height);
 
         pane.drawInitialFormation();
+        pane.setPhilosopherHungry(2);
 
         stage.setTitle("Philosophers");
         stage.setScene(scene);
