@@ -1,12 +1,9 @@
 package org.openjfx;
 
 import javafx.application.Application;
-import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
-
-import static javafx.scene.paint.Color.GREEN;
+import org.openjfx.geometry.PhilosophersLogic;
 
 public class App extends Application {
 
@@ -18,15 +15,15 @@ public class App extends Application {
         int numberOfPhilosophers = 5;
 
         PhilosophersPane pane = new PhilosophersPane(numberOfPhilosophers);
+        PhilosophersLogic philosophersLogic = new PhilosophersLogic(numberOfPhilosophers, pane);
         Scene scene = new Scene(pane, width, height);
 
         pane.drawInitialFormation();
-        pane.setPhilosopherHungry(2);
+        philosophersLogic.createAndStartThreads();
 
         stage.setTitle("Philosophers");
         stage.setScene(scene);
         stage.show();
-
     }
 
     public static void main(String[] args) {

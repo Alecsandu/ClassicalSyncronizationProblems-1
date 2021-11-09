@@ -10,6 +10,12 @@ public class PhilosophersPane extends GeometryPane {
         setTotalNumber(n);
     }
 
+    public void drawInitialFormation() {
+        drawTable();
+        drawPhilosophers();
+        drawChopsticks();
+    }
+
     private void drawTable() {
         setCircleRadius(100);
         drawCircleInCenter(Color.GREY);
@@ -24,12 +30,6 @@ public class PhilosophersPane extends GeometryPane {
     private void drawChopsticks() {
         setDistanceFromCenter(50);
         drawAllLinesAroundCenter(Color.BLACK);
-    }
-
-    public void drawInitialFormation() {
-        drawTable();
-        drawPhilosophers();
-        drawChopsticks();
     }
 
     public void setPhilosopherThinking(int i) {

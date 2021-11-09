@@ -20,6 +20,10 @@ public class ShapePane extends Pane {
         lines = new ArrayList<>();
     }
 
+    public final void drawCircleAndSaveIt(Point point, double radius, Color color) {
+        circles.add(drawCircle(point, radius, color));
+    }
+
     public final Circle drawCircle(Point point, double radius, Color color) {
         Circle circle = new Circle();
         circle.setFill(color);
@@ -30,8 +34,8 @@ public class ShapePane extends Pane {
         return circle;
     }
 
-    public final void drawCircleAndSaveIt(Point point, double radius, Color color) {
-        circles.add(drawCircle(point, radius, color));
+    public final void drawLineAndSaveIt(Point p1, Point p2, Color color) {
+        lines.add(drawLine(p1, p2, color));
     }
 
     public final Line drawLine(Point p1, Point p2, Color color) {
@@ -45,8 +49,12 @@ public class ShapePane extends Pane {
         return line;
     }
 
-    public final void drawLineAndSaveIt(Point p1, Point p2, Color color) {
-        lines.add(drawLine(p1, p2, color));
+    public final void setColorOfCircle(int i, Color color) {
+        getCircle(i).setFill(color);
+    }
+
+    public final void setColorOfLine(int i, Color color) {
+        getLine(i).setStroke(color);
     }
 
     public final Circle getCircle(int i) {
@@ -55,14 +63,6 @@ public class ShapePane extends Pane {
 
     public final Line getLine(int i) {
         return lines.get(i);
-    }
-
-    public final void setColorOfCircle(int i, Color color) {
-        getCircle(i).setFill(color);
-    }
-
-    public final void setColorOfLine(int i, Color color) {
-        getLine(i).setStroke(color);
     }
 
     public final Point getCentrePoint() {
