@@ -10,19 +10,12 @@ public class GeometryPane extends ShapePane {
     double lineLength;
     double distanceFromCenter;
     int totalNumber;
-    public GeometryPane(double x, double y) {
-        super(x, y);
+    public GeometryPane() {
+        super();
         this.circleRadius = 100;
         this.lineLength = 20;
         this.distanceFromCenter = 50;
         this.totalNumber = 5;
-    }
-    public GeometryPane(double x, double y, double circleRadius, double lineLength, double distanceFromCenter, int totalNumber) {
-        super(x, y);
-        this.circleRadius = circleRadius;
-        this.lineLength = lineLength;
-        this.distanceFromCenter = distanceFromCenter;
-        this.totalNumber = totalNumber;
     }
 
     public double getCircleRadius() {
@@ -84,8 +77,8 @@ public class GeometryPane extends ShapePane {
         drawLineAndSaveIt(new Point(x1, y1), new Point(x2, y2), color);
     }
 
-    public void drawAllLinesAroundCenter(int numberOfLines, Color color) {
-        IntStream.range(0, numberOfLines).forEach(i ->
+    public void drawAllLinesAroundCenter(Color color) {
+        IntStream.range(0, totalNumber).forEach(i ->
                 drawLineAroundCenter(i, color));
     }
 }

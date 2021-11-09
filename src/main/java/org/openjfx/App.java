@@ -1,8 +1,12 @@
 package org.openjfx;
 
 import javafx.application.Application;
+import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+
+import static javafx.scene.paint.Color.GREEN;
 
 public class App extends Application {
 
@@ -13,7 +17,7 @@ public class App extends Application {
         double height = 480;
         int numberOfPhilosophers = 5;
 
-        PhilosophersPane pane = new PhilosophersPane(width, height, numberOfPhilosophers);
+        PhilosophersPane pane = new PhilosophersPane(numberOfPhilosophers);
         Scene scene = new Scene(pane, width, height);
 
         pane.drawInitialFormation();

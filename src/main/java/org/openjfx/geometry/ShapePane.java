@@ -13,15 +13,11 @@ public class ShapePane extends Pane {
 
     List<Circle> circles;
     List<Line> lines;
-    double x;
-    double y;
 
-    public ShapePane(double x, double y) {
+    public ShapePane() {
         super();
         circles = new ArrayList<>();
         lines = new ArrayList<>();
-        this.x = x;
-        this.y = y;
     }
 
     public final Circle drawCircle(Point point, double radius, Color color) {
@@ -70,6 +66,6 @@ public class ShapePane extends Pane {
     }
 
     public final Point getCentrePoint() {
-        return new Point(x / 2, y / 2);
+        return new Point(getWidth() / 2, getHeight() / 2);
     }
 }

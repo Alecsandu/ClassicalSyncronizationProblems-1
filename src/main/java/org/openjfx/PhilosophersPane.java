@@ -4,11 +4,9 @@ import javafx.scene.paint.Color;
 import org.openjfx.geometry.GeometryPane;
 
 public class PhilosophersPane extends GeometryPane {
-    int numberOfPhilosophers;
 
-    public PhilosophersPane(double x, double y, int n) {
-        super(x, y);
-        this.numberOfPhilosophers = n;
+    public PhilosophersPane(int n) {
+        super();
         setTotalNumber(n);
     }
 
@@ -25,7 +23,7 @@ public class PhilosophersPane extends GeometryPane {
 
     private void drawChopsticks() {
         setDistanceFromCenter(50);
-        drawAllLinesAroundCenter(numberOfPhilosophers, Color.BLACK);
+        drawAllLinesAroundCenter(Color.BLACK);
     }
 
     public void drawInitialFormation() {
