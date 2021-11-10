@@ -3,6 +3,7 @@ package org.openjfx.geometry;
 class Philosopher extends Thread {
     private final int id;
     private final PhilosophersLogic parent;
+    private boolean isRunning = true;
 
     Philosopher(int id, PhilosophersLogic philosophersLogic) {
         this.id = id;
@@ -12,7 +13,7 @@ class Philosopher extends Thread {
     @Override
     public void run() {
         try {
-            while (true) {
+            while (isRunning) {
                 think();
                 hungry();
                 eat();
@@ -24,13 +25,14 @@ class Philosopher extends Thread {
 
     private void think() throws InterruptedException {
         parent.getPhilosophersPane().setPhilosopherThinking(id);
-        Thread.sleep(1000);
+        Philosopher.sleep(3000);
     }
 
     private void hungry() {
         parent.getPhilosophersPane().setPhilosopherHungry(id);
         tryToPickLeftChopstick();
         tryToPickRightChopstick();
+        parent.getPhilosophersPane().setPhilosopherEating(id);
     }
 
     private void tryToPickLeftChopstick() {
@@ -52,8 +54,7 @@ class Philosopher extends Thread {
     }
 
     private void eat() throws InterruptedException {
-        parent.getPhilosophersPane().setPhilosopherEating(id);
-        Thread.sleep(1000);
+        Philosopher.sleep(2000);
         releaseLeftChopstick();
         releaseRightChopstick();
     }
@@ -66,5 +67,9 @@ class Philosopher extends Thread {
     private void releaseRightChopstick() {
         parent.getPhilosophersPane().setChopstickAvailable(getRightChopstickPosition());
         parent.getMutex(getRightChopstickPosition()).unlock();
+    }
+
+    public void setRunning(boolean running) {
+        isRunning = running;
     }
 }

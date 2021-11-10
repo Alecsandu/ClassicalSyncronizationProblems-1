@@ -6,6 +6,8 @@ import javafx.stage.Stage;
 import org.openjfx.geometry.PhilosophersLogic;
 
 public class App extends Application {
+    private PhilosophersPane pane;
+    private PhilosophersLogic philosophersLogic;
 
     @Override
     public void start(Stage stage) {
@@ -14,8 +16,8 @@ public class App extends Application {
         double height = 480;
         int numberOfPhilosophers = 5;
 
-        PhilosophersPane pane = new PhilosophersPane(numberOfPhilosophers);
-        PhilosophersLogic philosophersLogic = new PhilosophersLogic(numberOfPhilosophers, pane);
+        pane = new PhilosophersPane(numberOfPhilosophers);
+        philosophersLogic = new PhilosophersLogic(numberOfPhilosophers, pane);
         Scene scene = new Scene(pane, width, height);
 
         pane.drawInitialFormation();
@@ -24,6 +26,12 @@ public class App extends Application {
         stage.setTitle("Philosophers");
         stage.setScene(scene);
         stage.show();
+    }
+
+    @Override
+    public void stop() throws Exception {
+        philosophersLogic.closeThreads();
+        super.stop();
     }
 
     public static void main(String[] args) {

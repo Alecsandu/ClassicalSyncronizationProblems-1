@@ -32,23 +32,23 @@ public class PhilosophersPane extends GeometryPane {
         drawAllLinesAroundCenter(Color.BLACK);
     }
 
-    public void setPhilosopherThinking(int i) {
+    public synchronized void setPhilosopherThinking(int i) {
         setColorOfCircle(i, Color.GREEN);
     }
 
-    public void setPhilosopherHungry(int i) {
+    public synchronized void setPhilosopherHungry(int i) {
         setColorOfCircle(i, Color.YELLOW);
     }
 
-    public void setPhilosopherEating(int i) {
+    public synchronized void setPhilosopherEating(int i) {
         setColorOfCircle(i, Color.RED);
     }
 
-    public void setChopstickAvailable(int i) {
+    public synchronized void setChopstickAvailable(int i) {
         setColorOfLine(i, Color.BLACK);
     }
 
-    public void setChopstickTaken(int i) {
+    public synchronized void setChopstickTaken(int i) {
         setColorOfLine(i, Color.RED);
     }
 }

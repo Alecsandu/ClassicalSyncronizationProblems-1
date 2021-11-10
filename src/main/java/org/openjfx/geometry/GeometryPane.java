@@ -10,6 +10,7 @@ public class GeometryPane extends ShapePane {
     double lineLength;
     double distanceFromCenter;
     int totalNumber;
+
     public GeometryPane() {
         super();
         this.circleRadius = 100;
@@ -24,8 +25,7 @@ public class GeometryPane extends ShapePane {
     }
 
     public void drawAllCirclesAroundCenter(Color color) {
-        IntStream.range(0, totalNumber).forEach(i ->
-                drawCircleAroundCenter(i, color));
+        IntStream.range(0, totalNumber).forEach(i -> drawCircleAroundCenter(i, color));
     }
 
     public void drawCircleAroundCenter(int number, Color color) {
