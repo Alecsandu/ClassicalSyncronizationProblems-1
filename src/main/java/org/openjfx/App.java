@@ -16,6 +16,7 @@ import org.openjfx.geometry.PhilosophersLogic;
 
 public class App extends Application {
     private PhilosophersLogic philosophersLogic;
+    private PhilosophersPane philosophersPane;
 
     @Override
     public void start(Stage stage) throws Exception{
@@ -25,14 +26,15 @@ public class App extends Application {
         BorderPane root = new BorderPane();
         BorderPane navRoot = new BorderPane();  // left zone
 
-        PhilosophersPane pane = new PhilosophersPane(numberOfPhilosophers);  // right zone
-        philosophersLogic = new PhilosophersLogic(numberOfPhilosophers, pane);
+        philosophersPane = new PhilosophersPane(numberOfPhilosophers);  // right zone
+        philosophersLogic = new PhilosophersLogic(numberOfPhilosophers, philosophersPane);
 
         /* Start and stop buttons for the philosohpser demo */
         Button startButton = new Button("Start");
         startButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
+                philosophersPane.drawInitialFormation();
                 philosophersLogic.createAndStartThreads();
             }
         });
@@ -52,7 +54,7 @@ public class App extends Application {
 
         SplitPane split = new SplitPane();
         split.setOrientation(Orientation.HORIZONTAL);
-        split.getItems().addAll(navRoot, pane);
+        split.getItems().addAll(navRoot, philosophersPane);
         split.setDividerPositions(0.18);
         SplitPane.setResizableWithParent(navRoot, Boolean.FALSE);
         navRoot.minWidthProperty().bind(split.widthProperty().multiply(0.18));  // used in order to block
@@ -60,10 +62,8 @@ public class App extends Application {
 
         root.setCenter(split);
 
-        pane.drawInitialFormation();
-
         Scene scene = new Scene(root, 800, 600);
-        pane.setStyle("-fx-background-color: #344464");
+        philosophersPane.setStyle("-fx-background-color: #344464");
         navRoot.setStyle("-fx-background-color: #253046");
 
         stage.setScene(scene);
