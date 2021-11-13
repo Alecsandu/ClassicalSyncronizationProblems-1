@@ -1,4 +1,4 @@
-package org.openjfx;
+package org.openjfx.geometry;
 
 public class Point {
     private double x;

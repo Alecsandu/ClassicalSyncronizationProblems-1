@@ -28,11 +28,15 @@ class Philosopher extends Thread {
         Philosopher.sleep(3000);
     }
 
-    private void hungry() {
+    private void hungry() throws InterruptedException {
         parent.getPhilosophersPane().setPhilosopherHungry(id);
-        tryToPickLeftChopstick();
-        tryToPickRightChopstick();
-        parent.getPhilosophersPane().setPhilosopherEating(id);
+        if (id % 2 == 0) {
+            tryToPickLeftChopstick();
+            tryToPickRightChopstick();
+        } else {
+            tryToPickRightChopstick();
+            tryToPickLeftChopstick();
+        }
     }
 
     private void tryToPickLeftChopstick() {
@@ -45,16 +49,17 @@ class Philosopher extends Thread {
         parent.getPhilosophersPane().setChopstickTaken(getRightChopstickPosition());
     }
 
-    private int getLeftChopstickPosition() {
+    private synchronized int getLeftChopstickPosition() {
         return id;
     }
 
-    private int getRightChopstickPosition() {
+    private synchronized int getRightChopstickPosition() {
         return (id + 1) % parent.getNumberOfPhilosophers();
     }
 
     private void eat() throws InterruptedException {
-        Philosopher.sleep(2000);
+        parent.getPhilosophersPane().setPhilosopherEating(id);
+        Philosopher.sleep(4000);
         releaseLeftChopstick();
         releaseRightChopstick();
     }

@@ -13,14 +13,19 @@ public class PhilosophersLogic {
     private final PhilosophersPane philosophersPane;
     private final List<ReentrantLock> mutexes;
 
+    private boolean startState;
+
     public PhilosophersLogic(int numberOfPhilosophers, PhilosophersPane philosophersPane) {
         this.numberOfPhilosophers = numberOfPhilosophers;
         this.philosophersPane = philosophersPane;
         this.threadList = new ArrayList<>();
         this.mutexes = new ArrayList<>();
+
+        startState = false;
     }
 
     public void createAndStartThreads() {
+        startState = true;
         createThreads();
         startThreads();
     }
@@ -30,12 +35,12 @@ public class PhilosophersLogic {
         IntStream.range(0, numberOfPhilosophers).forEach(i -> mutexes.add(new ReentrantLock()));
     }
 
-    public void closeThreads() {
-        IntStream.range(0, numberOfPhilosophers).forEach(i -> threadList.get(i).setRunning(false));
+    public void startThreads() {
+        threadList.forEach(Philosopher::start);
     }
 
-    public void startThreads() {
-        threadList.forEach(t -> t.start());
+    public void closeThreads() {
+        IntStream.range(0, numberOfPhilosophers).forEach(i -> threadList.get(i).setRunning(false));
     }
 
     public PhilosophersPane getPhilosophersPane() {
@@ -48,5 +53,10 @@ public class PhilosophersLogic {
 
     public int getNumberOfPhilosophers() {
         return numberOfPhilosophers;
+    }
+
+    public void checkThreadsState() {
+        if (startState)
+            closeThreads();
     }
 }

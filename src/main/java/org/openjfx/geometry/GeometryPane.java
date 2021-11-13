@@ -1,7 +1,6 @@
 package org.openjfx.geometry;
 
 import javafx.scene.paint.Color;
-import org.openjfx.Point;
 
 import java.util.stream.IntStream;
 

@@ -4,7 +4,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
-import org.openjfx.Point;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +15,8 @@ public class ShapePane extends Pane {
 
     public ShapePane() {
         super();
+        this.setWidth(600);
+        this.setHeight(450);
         circles = new ArrayList<>();
         lines = new ArrayList<>();
     }
@@ -66,6 +67,6 @@ public class ShapePane extends Pane {
     }
 
     public final Point getCentrePoint() {
-        return new Point(getWidth() / 2, getHeight() / 2);
+        return new Point(getHeight() / 2, getWidth() / 2);
     }
 }
