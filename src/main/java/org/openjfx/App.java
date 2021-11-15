@@ -26,15 +26,18 @@ public class App extends Application {
         philosophersLogic = new PhilosophersLogic(numberOfPhilosophers, philosophersPane);
 
         /* Start and stop buttons for the philosohpser demo */
-        Button startButton = new Button("Start");
+        Button startButton = new Button("Start deadlock");
         startButton.setOnAction(this::startButton);
+
+        Button startButtonFixed = new Button("Start");
+        startButtonFixed.setOnAction(this::startButtonFixed);
 
         Button stopButton = new Button("Stop");
         stopButton.setOnAction(this::stopButton);
 
         /* Add the buttons on the left zone of the scene */
         VBox leftZone = new VBox();
-        leftZone.getChildren().addAll(startButton, stopButton);
+        leftZone.getChildren().addAll(startButton, startButtonFixed, stopButton);
         navRoot.setCenter(leftZone);
 
         SplitPane split = new SplitPane();
@@ -59,6 +62,12 @@ public class App extends Application {
         philosophersPane.drawInitialFormation();
         philosophersLogic.createAndStartThreads();
     }
+
+    private void startButtonFixed(ActionEvent actionEvent) {
+        philosophersPane.drawInitialFormation();
+        philosophersLogic.createAndStartFixedThreads();
+    }
+
 
     private void stopButton(ActionEvent actionEvent) {
         philosophersLogic.checkThreadsStateAndStopThem();

@@ -1,9 +1,9 @@
 package org.openjfx;
 
 class Philosopher extends Thread {
-    private final int id;
-    private final PhilosophersLogic parent;
-    private boolean isRunning = true;
+    protected final int id;
+    protected final PhilosophersLogic parent;
+    protected boolean isRunning = true;
 
     Philosopher(int id, PhilosophersLogic philosophersLogic) {
         this.id = id;
@@ -23,40 +23,35 @@ class Philosopher extends Thread {
         }
     }
 
-    private void think() throws InterruptedException {
+    protected void think() throws InterruptedException {
         Philosopher.sleep(3000);
     }
 
-    private void hungry() throws InterruptedException {
+    protected void hungry() {
         parent.getPhilosophersPane().setPhilosopherHungry(id);
-        if (id % 2 == 0) {
-            tryToPickLeftChopstick();
-            tryToPickRightChopstick();
-        } else {
-            tryToPickRightChopstick();
-            tryToPickLeftChopstick();
-        }
+        tryToPickLeftChopstick();
+        tryToPickRightChopstick();
     }
 
-    private void tryToPickLeftChopstick() {
+    protected void tryToPickLeftChopstick() {
         parent.getMutex(getLeftChopstickPosition()).lock();
         parent.getPhilosophersPane().setChopstickTaken(getLeftChopstickPosition());
     }
 
-    private void tryToPickRightChopstick() {
+    protected void tryToPickRightChopstick() {
         parent.getMutex(getRightChopstickPosition()).lock();
         parent.getPhilosophersPane().setChopstickTaken(getRightChopstickPosition());
     }
 
-    private synchronized int getLeftChopstickPosition() {
+    protected synchronized int getLeftChopstickPosition() {
         return id;
     }
 
-    private synchronized int getRightChopstickPosition() {
+    protected synchronized int getRightChopstickPosition() {
         return (id + 1) % parent.getNumberOfPhilosophers();
     }
 
-    private void eat() throws InterruptedException {
+    protected void eat() throws InterruptedException {
         parent.getPhilosophersPane().setPhilosopherEating(id);
         Philosopher.sleep(4000);
         releaseLeftChopstick();
@@ -64,12 +59,12 @@ class Philosopher extends Thread {
         parent.getPhilosophersPane().setPhilosopherThinking(id);
     }
 
-    private void releaseLeftChopstick() {
+    protected void releaseLeftChopstick() {
         parent.getPhilosophersPane().setChopstickAvailable(getLeftChopstickPosition());
         parent.getMutex(getLeftChopstickPosition()).unlock();
     }
 
-    private void releaseRightChopstick() {
+    protected void releaseRightChopstick() {
         parent.getPhilosophersPane().setChopstickAvailable(getRightChopstickPosition());
         parent.getMutex(getRightChopstickPosition()).unlock();
     }

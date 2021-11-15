@@ -25,11 +25,26 @@ public class PhilosophersLogic {
     public void createAndStartThreads() {
         startState = true;
         createThreads();
+        createMutexes();
+        startThreads();
+    }
+
+    public void createAndStartFixedThreads() {
+        startState = true;
+        createFixedThreads();
+        createMutexes();
         startThreads();
     }
 
     public void createThreads() {
         IntStream.range(0, numberOfPhilosophers).forEach(i -> threadList.add(new Philosopher(i, this)));
+    }
+
+    public void createFixedThreads() {
+        IntStream.range(0, numberOfPhilosophers).forEach(i -> threadList.add(new PhilosopherFix(i, this)));
+    }
+
+    private void createMutexes() {
         IntStream.range(0, numberOfPhilosophers).forEach(i -> mutexes.add(new ReentrantLock()));
     }
 
