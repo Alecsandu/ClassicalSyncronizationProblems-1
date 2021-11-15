@@ -55,7 +55,7 @@ public class PhilosophersLogic {
         return numberOfPhilosophers;
     }
 
-    public void checkThreadsState() {
+    public void checkThreadsStateAndStopThem() {
         if (startState)
             closeThreads();
     }

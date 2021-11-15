@@ -2,16 +2,13 @@ package org.openjfx;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Orientation;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.SplitPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import org.openjfx.appinterface.ActionButton;
 import org.openjfx.geometry.PhilosophersLogic;
 
 public class App extends Application {
@@ -31,21 +28,10 @@ public class App extends Application {
 
         /* Start and stop buttons for the philosohpser demo */
         Button startButton = new Button("Start");
-        startButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                philosophersPane.drawInitialFormation();
-                philosophersLogic.createAndStartThreads();
-            }
-        });
+        startButton.setOnAction(this::startButton);
 
         Button stopButton = new Button("Stop");
-        stopButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                philosophersLogic.checkThreadsState();
-            }
-        });
+        stopButton.setOnAction(this::stopButton);
 
         /* Add the buttons on the left zone of the scene */
         VBox leftZone = new VBox();
@@ -70,9 +56,18 @@ public class App extends Application {
         stage.show();
     }
 
+    private void startButton(ActionEvent actionEvent) {
+        philosophersPane.drawInitialFormation();
+        philosophersLogic.createAndStartThreads();
+    }
+
+    private void stopButton(ActionEvent actionEvent) {
+        philosophersLogic.checkThreadsStateAndStopThem();
+    }
+
     @Override
     public void stop() throws Exception {
-        philosophersLogic.checkThreadsState();
+        philosophersLogic.checkThreadsStateAndStopThem();
         super.stop();
     }
 

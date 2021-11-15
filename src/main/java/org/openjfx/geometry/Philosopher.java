@@ -24,7 +24,6 @@ class Philosopher extends Thread {
     }
 
     private void think() throws InterruptedException {
-        parent.getPhilosophersPane().setPhilosopherThinking(id);
         Philosopher.sleep(3000);
     }
 
@@ -62,6 +61,7 @@ class Philosopher extends Thread {
         Philosopher.sleep(4000);
         releaseLeftChopstick();
         releaseRightChopstick();
+        parent.getPhilosophersPane().setPhilosopherThinking(id);
     }
 
     private void releaseLeftChopstick() {
