@@ -9,7 +9,6 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import org.openjfx.geometry.PhilosophersLogic;
 
 public class App extends Application {
     private PhilosophersLogic philosophersLogic;

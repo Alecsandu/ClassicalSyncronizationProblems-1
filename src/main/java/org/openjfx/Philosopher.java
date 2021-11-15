@@ -1,4 +1,4 @@
-package org.openjfx.geometry;
+package org.openjfx;
 
 class Philosopher extends Thread {
     private final int id;

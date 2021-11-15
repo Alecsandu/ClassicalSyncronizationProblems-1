@@ -1,6 +1,4 @@
-package org.openjfx.geometry;
-
-import org.openjfx.PhilosophersPane;
+package org.openjfx;
 
 import java.util.ArrayList;
 import java.util.List;
