@@ -4,6 +4,7 @@ import javafx.scene.paint.Color;
 import org.openjfx.geometry.GeometryPane;
 
 public class PhilosophersPane extends GeometryPane {
+    private boolean drawn = false;
 
     public PhilosophersPane(int n) {
         super();
@@ -11,9 +12,12 @@ public class PhilosophersPane extends GeometryPane {
     }
 
     public void drawInitialFormation() {
-        drawTable();
-        drawPhilosophers();
-        drawChopsticks();
+        if (!drawn) {
+            drawTable();
+            drawPhilosophers();
+            drawChopsticks();
+            drawn = true;
+        }
     }
 
     private void drawTable() {

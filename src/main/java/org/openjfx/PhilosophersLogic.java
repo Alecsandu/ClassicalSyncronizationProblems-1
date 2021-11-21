@@ -7,7 +7,7 @@ import java.util.stream.IntStream;
 
 public class PhilosophersLogic {
     private final int numberOfPhilosophers;
-    private final List<Philosopher> threadList;
+    private final List<DeadlockPhilosopher> threadList;
     private final PhilosophersPane philosophersPane;
     private final List<ReentrantLock> mutexes;
 
@@ -24,7 +24,7 @@ public class PhilosophersLogic {
 
     public void createAndStartThreads() {
         startState = true;
-        createThreads();
+        createDeadlockThreads();
         createMutexes();
         startThreads();
     }
@@ -36,8 +36,8 @@ public class PhilosophersLogic {
         startThreads();
     }
 
-    public void createThreads() {
-        IntStream.range(0, numberOfPhilosophers).forEach(i -> threadList.add(new Philosopher(i, this)));
+    public void createDeadlockThreads() {
+        IntStream.range(0, numberOfPhilosophers).forEach(i -> threadList.add(new DeadlockPhilosopher(i, this)));
     }
 
     public void createFixedThreads() {
@@ -49,11 +49,12 @@ public class PhilosophersLogic {
     }
 
     public void startThreads() {
-        threadList.forEach(Philosopher::start);
+        threadList.forEach(DeadlockPhilosopher::start);
     }
 
     public void closeThreads() {
-        IntStream.range(0, numberOfPhilosophers).forEach(i -> threadList.get(i).setRunning(false));
+        IntStream.range(0, threadList.size()).forEach(i -> threadList.get(i).setRunning(false));
+        threadList.clear();
     }
 
     public PhilosophersPane getPhilosophersPane() {

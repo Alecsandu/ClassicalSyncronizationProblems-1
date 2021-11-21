@@ -1,6 +1,6 @@
 package org.openjfx;
 
-public class PhilosopherFix extends Philosopher{
+public class PhilosopherFix extends DeadlockPhilosopher {
     PhilosopherFix(int id, PhilosophersLogic philosophersLogic) {
         super(id, philosophersLogic);
     }

@@ -1,11 +1,11 @@
 package org.openjfx;
 
-class Philosopher extends Thread {
+class DeadlockPhilosopher extends Thread {
     protected final int id;
     protected final PhilosophersLogic parent;
     protected boolean isRunning = true;
 
-    Philosopher(int id, PhilosophersLogic philosophersLogic) {
+    DeadlockPhilosopher(int id, PhilosophersLogic philosophersLogic) {
         this.id = id;
         this.parent = philosophersLogic;
     }
@@ -24,7 +24,7 @@ class Philosopher extends Thread {
     }
 
     protected void think() throws InterruptedException {
-        Philosopher.sleep(3000);
+        DeadlockPhilosopher.sleep(3000);
     }
 
     protected void hungry() {
@@ -53,7 +53,7 @@ class Philosopher extends Thread {
 
     protected void eat() throws InterruptedException {
         parent.getPhilosophersPane().setPhilosopherEating(id);
-        Philosopher.sleep(4000);
+        DeadlockPhilosopher.sleep(4000);
         releaseLeftChopstick();
         releaseRightChopstick();
         parent.getPhilosophersPane().setPhilosopherThinking(id);
