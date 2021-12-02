@@ -1,4 +1,4 @@
-package org.openjfx;
+package org.openjfx.philosophersproblem;
 
 import javafx.scene.paint.Color;
 import org.openjfx.geometry.GeometryPane;
@@ -6,9 +6,8 @@ import org.openjfx.geometry.GeometryPane;
 public class PhilosophersPane extends GeometryPane {
     private boolean drawn = false;
 
-    public PhilosophersPane(int n) {
-        super();
-        setTotalNumber(n);
+    public PhilosophersPane(int numberOfPhilosophers, double actualWidth, double actualHeight) {
+        super(numberOfPhilosophers, actualWidth, actualHeight);
     }
 
     public void drawInitialFormation() {
@@ -16,7 +15,7 @@ public class PhilosophersPane extends GeometryPane {
             drawTable();
             drawPhilosophers();
             drawChopsticks();
-            drawn = true;
+            this.drawn = true;
         }
     }
 
@@ -36,15 +35,15 @@ public class PhilosophersPane extends GeometryPane {
         drawAllLinesAroundCenter(Color.BLACK);
     }
 
-    public synchronized void setPhilosopherThinking(int i) {
+    public synchronized void setPhilosopherColorToThinking(int i) {
         setColorOfCircle(i, Color.GREEN);
     }
 
-    public synchronized void setPhilosopherHungry(int i) {
+    public synchronized void setPhilosopherColorToHungry(int i) {
         setColorOfCircle(i, Color.YELLOW);
     }
 
-    public synchronized void setPhilosopherEating(int i) {
+    public synchronized void setPhilosopherColorToEating(int i) {
         setColorOfCircle(i, Color.RED);
     }
 
@@ -54,5 +53,13 @@ public class PhilosophersPane extends GeometryPane {
 
     public synchronized void setChopstickTaken(int i) {
         setColorOfLine(i, Color.RED);
+    }
+
+    public boolean isDrawn() {
+        return drawn;
+    }
+
+    public void setDrawn(boolean drawn) {
+        this.drawn = drawn;
     }
 }

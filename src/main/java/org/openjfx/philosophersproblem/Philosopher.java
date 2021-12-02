@@ -1,14 +1,9 @@
-package org.openjfx;
+package org.openjfx.philosophersproblem;
 
-class DeadlockPhilosopher extends Thread {
-    protected final int id;
-    protected final PhilosophersLogic parent;
-    protected boolean isRunning = true;
-
-    DeadlockPhilosopher(int id, PhilosophersLogic philosophersLogic) {
-        this.id = id;
-        this.parent = philosophersLogic;
-    }
+public abstract class Philosopher extends Thread {
+    protected int philosopherId;
+    protected boolean isRunning;
+    protected PhilosophersLogic parent;
 
     @Override
     public void run() {
@@ -23,15 +18,11 @@ class DeadlockPhilosopher extends Thread {
         }
     }
 
-    protected void think() throws InterruptedException {
-        DeadlockPhilosopher.sleep(3000);
-    }
+    protected abstract void think() throws InterruptedException;
 
-    protected void hungry() {
-        parent.getPhilosophersPane().setPhilosopherHungry(id);
-        tryToPickLeftChopstick();
-        tryToPickRightChopstick();
-    }
+    protected abstract void hungry();
+
+    protected abstract void eat() throws InterruptedException;
 
     protected void tryToPickLeftChopstick() {
         parent.getMutex(getLeftChopstickPosition()).lock();
@@ -44,19 +35,11 @@ class DeadlockPhilosopher extends Thread {
     }
 
     protected synchronized int getLeftChopstickPosition() {
-        return id;
+        return philosopherId;
     }
 
     protected synchronized int getRightChopstickPosition() {
-        return (id + 1) % parent.getNumberOfPhilosophers();
-    }
-
-    protected void eat() throws InterruptedException {
-        parent.getPhilosophersPane().setPhilosopherEating(id);
-        DeadlockPhilosopher.sleep(4000);
-        releaseLeftChopstick();
-        releaseRightChopstick();
-        parent.getPhilosophersPane().setPhilosopherThinking(id);
+        return (philosopherId + 1) % parent.getNumberOfPhilosophers();
     }
 
     protected void releaseLeftChopstick() {
@@ -69,7 +52,27 @@ class DeadlockPhilosopher extends Thread {
         parent.getMutex(getRightChopstickPosition()).unlock();
     }
 
+    public int getPhilosopherId() {
+        return philosopherId;
+    }
+
+    public void setPhilosopherId(int id) {
+        this.philosopherId = id;
+    }
+
+    public boolean isRunning() {
+        return isRunning;
+    }
+
     public void setRunning(boolean running) {
         isRunning = running;
+    }
+
+    public PhilosophersLogic getParent() {
+        return parent;
+    }
+
+    public void setParent(PhilosophersLogic parent) {
+        this.parent = parent;
     }
 }

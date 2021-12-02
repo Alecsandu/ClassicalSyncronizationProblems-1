@@ -1,4 +1,4 @@
-package org.openjfx;
+package org.openjfx.philosophersproblem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +7,7 @@ import java.util.stream.IntStream;
 
 public class PhilosophersLogic {
     private final int numberOfPhilosophers;
-    private final List<DeadlockPhilosopher> threadList;
+    private final List<Philosopher> threadList;
     private final PhilosophersPane philosophersPane;
     private final List<ReentrantLock> mutexes;
 
@@ -37,11 +37,11 @@ public class PhilosophersLogic {
     }
 
     public void createDeadlockThreads() {
-        IntStream.range(0, numberOfPhilosophers).forEach(i -> threadList.add(new DeadlockPhilosopher(i, this)));
+        IntStream.range(0, numberOfPhilosophers).forEach(i -> threadList.add(new DeadlockedPhilosopher(i, this)));
     }
 
     public void createFixedThreads() {
-        IntStream.range(0, numberOfPhilosophers).forEach(i -> threadList.add(new PhilosopherFix(i, this)));
+        IntStream.range(0, numberOfPhilosophers).forEach(i -> threadList.add(new SynchronizedPhilosopher(i, this)));
     }
 
     private void createMutexes() {
@@ -49,7 +49,7 @@ public class PhilosophersLogic {
     }
 
     public void startThreads() {
-        threadList.forEach(DeadlockPhilosopher::start);
+        threadList.forEach(Philosopher::start);
     }
 
     public void closeThreads() {

@@ -9,20 +9,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ShapePane extends Pane {
+    private final List<Circle> circles;
+    private final List<Line> lines;
+    private double actualWidth;
+    private double actualHeight;
 
-    List<Circle> circles;
-    List<Line> lines;
-
-    public ShapePane() {
+    public ShapePane(double actualWidth, double actualHeight) {
         super();
-        this.setWidth(600);
-        this.setHeight(450);
-        circles = new ArrayList<>();
-        lines = new ArrayList<>();
+        this.circles = new ArrayList<>();
+        this.lines = new ArrayList<>();
+        this.actualWidth = actualWidth;
+        this.actualHeight = actualHeight;
     }
 
     public final void drawCircleAndSaveIt(Point point, double radius, Color color) {
-        circles.add(drawCircle(point, radius, color));
+        this.circles.add(drawCircle(point, radius, color));
     }
 
     public final Circle drawCircle(Point point, double radius, Color color) {
@@ -67,6 +68,22 @@ public class ShapePane extends Pane {
     }
 
     public final Point getCentrePoint() {
-        return new Point(getHeight() / 2, getWidth() / 2);
+        return new Point(getActualWidth() / 2, getActualHeight() / 2);
+    }
+
+    public double getActualWidth() {
+        return actualWidth;
+    }
+
+    public void setActualWidth(double actualWidth) {
+        this.actualWidth = actualWidth;
+    }
+
+    public double getActualHeight() {
+        return actualHeight;
+    }
+
+    public void setActualHeight(double actualHeight) {
+        this.actualHeight = actualHeight;
     }
 }
