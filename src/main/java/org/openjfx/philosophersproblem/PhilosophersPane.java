@@ -24,6 +24,10 @@ public class PhilosophersPane extends GeometryPane {
         drawCircleInCenter(Color.GREY);
     }
 
+    public void eraseCircles() {
+        this.getChildren().remove(this.getCircles());
+    }
+
     private void drawPhilosophers() {
         setCircleRadius(30);
         setDistanceFromCenter(150);

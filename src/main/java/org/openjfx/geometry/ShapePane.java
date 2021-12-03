@@ -37,7 +37,7 @@ public class ShapePane extends Pane {
     }
 
     public final void drawLineAndSaveIt(Point p1, Point p2, Color color) {
-        lines.add(drawLine(p1, p2, color));
+        this.lines.add(drawLine(p1, p2, color));
     }
 
     public final Line drawLine(Point p1, Point p2, Color color) {
@@ -49,6 +49,11 @@ public class ShapePane extends Pane {
         line.setEndY(p2.getY());
         this.getChildren().add(line);
         return line;
+    }
+
+    public final void eraseShapes() {
+        this.lines.clear();
+        this.circles.clear();
     }
 
     public final void setColorOfCircle(int i, Color color) {
@@ -85,5 +90,13 @@ public class ShapePane extends Pane {
 
     public void setActualHeight(double actualHeight) {
         this.actualHeight = actualHeight;
+    }
+
+    public List<Circle> getCircles() {
+        return circles;
+    }
+
+    public List<Line> getLines() {
+        return lines;
     }
 }

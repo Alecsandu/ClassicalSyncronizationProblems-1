@@ -22,14 +22,14 @@ public class PhilosophersLogic {
         startState = false;
     }
 
-    public void createAndStartThreads() {
+    public void createAndStartDeadlockProtocolThreads() {
         startState = true;
         createDeadlockThreads();
         createMutexes();
         startThreads();
     }
 
-    public void createAndStartFixedThreads() {
+    public void createAndStartSynchronizedProtocolThreads() {
         startState = true;
         createFixedThreads();
         createMutexes();

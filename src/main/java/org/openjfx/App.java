@@ -7,9 +7,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import org.openjfx.philosophersproblem.PhilosophersLogic;
 import org.openjfx.philosophersproblem.PhilosophersPane;
+
+import java.util.List;
 
 public class App extends Application {
     private PhilosophersLogic philosophersLogic;
@@ -19,7 +22,7 @@ public class App extends Application {
     public void start(Stage stage){
         stage.setTitle("CSP");
         // TO DO: vezi mai jos unde e declarata metoda
-        //setStageEventListeners(stage);
+        setStageEventListeners(stage);
 
         int numOfPhilosophers = 5;
         philosophersPane = new PhilosophersPane(numOfPhilosophers, 800, 600);
@@ -28,9 +31,9 @@ public class App extends Application {
         philosophersLogic = new PhilosophersLogic(numOfPhilosophers, philosophersPane);
 
         BorderPane root = new BorderPane();
-        HBox leftZone = setButtonsForLeftZone();
+        HBox topZone = setButtonsForTopZone();
 
-        root.setTop(leftZone);
+        root.setTop(topZone);
         root.setCenter(philosophersPane);
 
         Scene scene = new Scene(root, 800, 600);
@@ -39,7 +42,7 @@ public class App extends Application {
         stage.show();
     }
 
-    private HBox setButtonsForLeftZone() {
+    private HBox setButtonsForTopZone() {
         Button startDeadlockExecButton = new Button("Start deadlock demo");
         startDeadlockExecButton.setOnAction(this::startDeadlockPossibilityButton);
 
@@ -50,18 +53,19 @@ public class App extends Application {
         stopExecButton.setOnAction(this::stopButton);
 
         HBox horizontalBox = new HBox();
+
         horizontalBox.getChildren().addAll(startDeadlockExecButton, startCorrectExecButton, stopExecButton);
         return horizontalBox;
     }
 
     private void startDeadlockPossibilityButton(ActionEvent actionEvent) {
         philosophersPane.drawInitialFormation();
-        philosophersLogic.createAndStartThreads();
+        philosophersLogic.createAndStartDeadlockProtocolThreads();
     }
 
     private void startCorrectSynchronizationButton(ActionEvent actionEvent) {
         philosophersPane.drawInitialFormation();
-        philosophersLogic.createAndStartFixedThreads();
+        philosophersLogic.createAndStartSynchronizedProtocolThreads();
     }
 
     private void stopButton(ActionEvent actionEvent) {
@@ -69,17 +73,21 @@ public class App extends Application {
     }
 
     //TO DO: sa facem ca dupa ce apeleaza drawInitialFormation din nou sa dispara ce era deja desenat
-    /*private void setStageEventListeners(Stage stage) {
+    private void setStageEventListeners(Stage stage) {
         stage.widthProperty().addListener((obs, oldVal, newVal) -> {
             philosophersPane.setActualWidth(newVal.doubleValue());
             philosophersPane.setDrawn(false);
+            philosophersPane.eraseShapes();
             philosophersPane.drawInitialFormation();
         });
 
         stage.heightProperty().addListener((obs, oldVal, newVal) -> {
             philosophersPane.setActualHeight(newVal.doubleValue());
+            philosophersPane.setDrawn(false);
+            philosophersPane.eraseShapes();
+            philosophersPane.drawInitialFormation();
         });
-    }*/
+    }
 
     @Override
     public void stop() throws Exception {
