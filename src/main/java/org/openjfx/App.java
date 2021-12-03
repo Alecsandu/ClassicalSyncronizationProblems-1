@@ -1,18 +1,16 @@
 package org.openjfx;
 
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import org.openjfx.philosophersproblem.PhilosophersLogic;
 import org.openjfx.philosophersproblem.PhilosophersPane;
-
-import java.util.List;
 
 public class App extends Application {
     private PhilosophersLogic philosophersLogic;
@@ -21,7 +19,6 @@ public class App extends Application {
     @Override
     public void start(Stage stage){
         stage.setTitle("CSP");
-        // TO DO: vezi mai jos unde e declarata metoda
         setStageEventListeners(stage);
 
         int numOfPhilosophers = 5;
@@ -72,21 +69,20 @@ public class App extends Application {
         philosophersLogic.checkThreadsStateAndStopThem();
     }
 
-    //TO DO: sa facem ca dupa ce apeleaza drawInitialFormation din nou sa dispara ce era deja desenat
     private void setStageEventListeners(Stage stage) {
-        stage.widthProperty().addListener((obs, oldVal, newVal) -> {
-            philosophersPane.setActualWidth(newVal.doubleValue());
+        ChangeListener<Number> stageSizeChangeListener = (observableValue, oldValue, newValue) -> {
+            philosophersPane.setActualWidth(stage.getWidth());
+            philosophersPane.setActualHeight(stage.getHeight());
             philosophersPane.setDrawn(false);
+            philosophersPane.getCircles().forEach(circle -> philosophersPane.getChildren().remove(circle));
+            philosophersPane.getLines().forEach(circle -> philosophersPane.getChildren().remove(circle));
+            philosophersPane.getChildren().remove(philosophersPane.getCentralCircle());
             philosophersPane.eraseShapes();
             philosophersPane.drawInitialFormation();
-        });
+        };
 
-        stage.heightProperty().addListener((obs, oldVal, newVal) -> {
-            philosophersPane.setActualHeight(newVal.doubleValue());
-            philosophersPane.setDrawn(false);
-            philosophersPane.eraseShapes();
-            philosophersPane.drawInitialFormation();
-        });
+        stage.widthProperty().addListener(stageSizeChangeListener);
+        stage.heightProperty().addListener(stageSizeChangeListener);
     }
 
     @Override

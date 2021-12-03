@@ -1,14 +1,16 @@
 package org.openjfx.geometry;
 
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 
 import java.util.stream.IntStream;
 
 public class GeometryPane extends ShapePane {
-    double circleRadius;
-    double lineLength;
-    double distanceFromCenter;
+    private double circleRadius;
+    private double lineLength;
+    private double distanceFromCenter;
     private int totalNumberOfPhilosophers;
+    private Circle centralCircle;
 
     public GeometryPane(int numberOfPhilosophers, double actualWidth, double actualHeight) {
         super(actualWidth, actualHeight);
@@ -20,7 +22,7 @@ public class GeometryPane extends ShapePane {
 
     public void drawCircleInCenter(Color color) {
         Point centre = getCentrePoint();
-        drawCircle(centre, circleRadius, color);
+        centralCircle = drawCircle(centre, circleRadius, color);
     }
 
     public void drawAllCirclesAroundCenter(Color color) {
@@ -79,5 +81,9 @@ public class GeometryPane extends ShapePane {
 
     public void setDistanceFromCenter(double distanceFromCenter) {
         this.distanceFromCenter = distanceFromCenter;
+    }
+
+    public Circle getCentralCircle() {
+        return centralCircle;
     }
 }
