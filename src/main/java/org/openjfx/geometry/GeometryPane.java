@@ -26,15 +26,20 @@ public class GeometryPane extends ShapePane {
     }
 
     public void drawAllCirclesAroundCenter(Color color) {
-        IntStream.range(0, totalNumberOfPhilosophers).forEach(i -> drawCircleAroundCenter(i, color));
+        IntStream.range(0, totalNumberOfPhilosophers).forEach(i ->
+                drawCircleAroundCenter(i, color));
     }
 
     public void drawCircleAroundCenter(int number, Color color) {
+        Point circleCenter = getCenterOfCircleAroundCenter(number);
+        drawCircle(circleCenter, circleRadius, color);
+    }
+
+    public Point getCenterOfCircleAroundCenter(int  number) {
         Point centre = getCentrePoint();
         double x = centre.getX() + distanceFromCenter * Math.cos(2 * Math.PI * number / totalNumberOfPhilosophers);
         double y = centre.getY() + distanceFromCenter * Math.sin(2 * Math.PI * number / totalNumberOfPhilosophers);
-        Point point = new Point(x, y);
-        drawCircleAndSaveIt(point, circleRadius, color);
+        return new Point(x, y);
     }
 
     public void drawAllLinesAroundCenter(Color color) {
@@ -43,12 +48,34 @@ public class GeometryPane extends ShapePane {
     }
 
     public void drawLineAroundCenter(int number, Color color) {
+        Point startPoint = getStartOfLineAroundCenter(number);
+        Point endPoint = getEndOfLineAroundCenter(number);
+        drawLine(startPoint, endPoint, color);
+    }
+
+    public Point getStartOfLineAroundCenter(int number) {
         Point centre = getCentrePoint();
-        double x1 = centre.getX() + distanceFromCenter * Math.cos(2 * Math.PI * number / totalNumberOfPhilosophers + 100);
-        double y1 = centre.getY() + distanceFromCenter  * Math.sin(2 * Math.PI * number / totalNumberOfPhilosophers+ 100);
-        double x2 = centre.getX() + (distanceFromCenter  + lineLength) * Math.cos(2 * Math.PI * number / totalNumberOfPhilosophers + 100);
-        double y2 = centre.getY() + (distanceFromCenter  + lineLength) * Math.sin(2 * Math.PI * number / totalNumberOfPhilosophers + 100);
-        drawLineAndSaveIt(new Point(x1, y1), new Point(x2, y2), color);
+        double x = centre.getX() + distanceFromCenter * Math.cos(2 * Math.PI * number / totalNumberOfPhilosophers + 100);
+        double y = centre.getY() + distanceFromCenter  * Math.sin(2 * Math.PI * number / totalNumberOfPhilosophers+ 100);
+        return new Point(x, y);
+    }
+
+    public Point getEndOfLineAroundCenter(int number) {
+        Point centre = getCentrePoint();
+        double x = centre.getX() + (distanceFromCenter  + lineLength) * Math.cos(2 * Math.PI * number / totalNumberOfPhilosophers + 100);
+        double y = centre.getY() + (distanceFromCenter  + lineLength) * Math.sin(2 * Math.PI * number / totalNumberOfPhilosophers + 100);
+        return new Point(x, y);
+    }
+
+    public void recenterAllCircles() {
+        setCenterOfCircle(getCentralCircle(), getCentrePoint());
+        IntStream.range(0, totalNumberOfPhilosophers).forEach(i ->
+                setCenterOfCircle(i, getCenterOfCircleAroundCenter(i)));
+    }
+
+    public void recenterAllLines() {
+        IntStream.range(0, totalNumberOfPhilosophers).forEach(i ->
+                setEndpointsOfLine(i, getStartOfLineAroundCenter(i), getEndOfLineAroundCenter(i)));
     }
 
     public double getCircleRadius() {
