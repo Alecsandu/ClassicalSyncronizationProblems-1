@@ -4,28 +4,33 @@ import javafx.scene.paint.Color;
 import org.openjfx.geometry.GeometryPane;
 
 public class PhilosophersPane extends GeometryPane {
-    private boolean drawn = false;
+    private boolean isDrawn = false;
+    private boolean isActive = false;
 
     public PhilosophersPane(int numberOfPhilosophers, double actualWidth, double actualHeight) {
         super(numberOfPhilosophers, actualWidth, actualHeight);
     }
 
     public void drawInitialFormation() {
-        if (!drawn) {
+        if (!isDrawn && isActive) {
             drawTable();
             drawPhilosophers();
             drawChopsticks();
-            this.drawn = true;
+            this.isDrawn = true;
         }
+    }
+
+    public void setActive() {
+        isActive = true;
+    }
+
+    public void setDeactive() {
+        isActive = false;
     }
 
     private void drawTable() {
         setCircleRadius(100);
         drawCircleInCenter(Color.GREY);
-    }
-
-    public void eraseCircles() {
-        this.getChildren().remove(this.getCircles());
     }
 
     private void drawPhilosophers() {
@@ -60,10 +65,10 @@ public class PhilosophersPane extends GeometryPane {
     }
 
     public boolean isDrawn() {
-        return drawn;
+        return isDrawn;
     }
 
     public void setDrawn(boolean drawn) {
-        this.drawn = drawn;
+        this.isDrawn = drawn;
     }
 }
