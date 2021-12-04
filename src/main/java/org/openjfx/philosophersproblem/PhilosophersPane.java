@@ -11,7 +11,7 @@ public class PhilosophersPane extends GeometryPane {
     }
 
     public void drawInitialFormation() {
-        if (!drawn) {
+        if (!isDrawn()) {
             drawTable();
             drawPhilosophers();
             drawChopsticks();
@@ -24,10 +24,6 @@ public class PhilosophersPane extends GeometryPane {
         drawCircleInCenter(Color.GREY);
     }
 
-    public void eraseCircles() {
-        this.getChildren().remove(this.getCircles());
-    }
-
     private void drawPhilosophers() {
         setCircleRadius(30);
         setDistanceFromCenter(150);
@@ -37,6 +33,20 @@ public class PhilosophersPane extends GeometryPane {
     private void drawChopsticks() {
         setDistanceFromCenter(50);
         drawAllLinesAroundCenter(Color.BLACK);
+    }
+
+    public void recenterPhilosophers() {
+        if (isDrawn()) {
+            setDistanceFromCenter(150);
+            recenterAllCircles();
+        }
+    }
+
+    public void recenterChopsticks() {
+        if (isDrawn()) {
+            setDistanceFromCenter(50);
+            recenterAllLines();
+        }
     }
 
     public synchronized void setPhilosopherColorToThinking(int i) {

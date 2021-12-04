@@ -73,12 +73,8 @@ public class App extends Application {
         ChangeListener<Number> stageSizeChangeListener = (observableValue, oldValue, newValue) -> {
             philosophersPane.setActualWidth(stage.getWidth());
             philosophersPane.setActualHeight(stage.getHeight());
-            philosophersPane.setDrawn(false);
-            philosophersPane.getCircles().forEach(circle -> philosophersPane.getChildren().remove(circle));
-            philosophersPane.getLines().forEach(circle -> philosophersPane.getChildren().remove(circle));
-            philosophersPane.getChildren().remove(philosophersPane.getCentralCircle());
-            philosophersPane.eraseShapes();
-            philosophersPane.drawInitialFormation();
+            philosophersPane.recenterPhilosophers();
+            philosophersPane.recenterChopsticks();
         };
 
         stage.widthProperty().addListener(stageSizeChangeListener);
