@@ -70,19 +70,19 @@ public class App extends Application {
     }
 
     private void startDeadlockPossibilityButton(ActionEvent actionEvent) {
-        philosophersPane.setActive();
+        philosophersPane.setIsActive();
         philosophersPane.drawInitialFormation();
         philosophersLogic.createAndStartDeadlockProtocolThreads();
     }
 
     private void startCorrectSynchronizationButton(ActionEvent actionEvent) {
-        philosophersPane.setActive();
+        philosophersPane.setIsActive();
         philosophersPane.drawInitialFormation();
         philosophersLogic.createAndStartSynchronizedProtocolThreads();
     }
 
     private void stopButton(ActionEvent actionEvent) {
-        philosophersPane.setDeactive();
+        philosophersPane.setIsNotActive();
         philosophersLogic.checkThreadsStateAndStopThem();
     }
 

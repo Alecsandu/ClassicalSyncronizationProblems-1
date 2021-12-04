@@ -20,11 +20,11 @@ public class PhilosophersPane extends GeometryPane {
         }
     }
 
-    public void setActive() {
+    public void setIsActive() {
         isActive = true;
     }
 
-    public void setDeactive() {
+    public void setIsNotActive() {
         isActive = false;
     }
 
