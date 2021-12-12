@@ -6,32 +6,38 @@ import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import org.openjfx.philosophersproblem.PhilosophersLogic;
 import org.openjfx.philosophersproblem.PhilosophersPane;
+import org.openjfx.producersandconsumersproblem.ProducerConsumerLogic;
+import org.openjfx.producersandconsumersproblem.ProducerConsumerPane;
 
 public class App extends Application {
     private PhilosophersLogic philosophersLogic;
     private PhilosophersPane philosophersPane;
+    private ProducerConsumerPane producerConsumerPane;
+    private ProducerConsumerLogic producerConsumerLogic;
+    private BorderPane rootNode;
 
     @Override
     public void start(Stage stage) {
         int numOfPhilosophers = 5;
-        philosophersPane = new PhilosophersPane(numOfPhilosophers, 800, 600);
+        int width = 800;
+        int height = 600;
+        philosophersPane = new PhilosophersPane(numOfPhilosophers, width, height);
         philosophersPane.setBackground(new Background(new BackgroundFill(Color.web("#aabbbf"), CornerRadii.EMPTY, Insets.EMPTY)));
+        producerConsumerPane = new ProducerConsumerPane(5, width, height);
+        producerConsumerPane.setBackground(new Background(new BackgroundFill(Color.web("#aaabbb"), CornerRadii.EMPTY, Insets.EMPTY)));
 
         philosophersLogic = new PhilosophersLogic(numOfPhilosophers, philosophersPane);
+        producerConsumerLogic = new ProducerConsumerLogic();
 
-        BorderPane philosophersRootNode = new BorderPane();
-        HBox philosophersButtonsBox = new HBox();
-        setButtonsForPhilosophersProblem(philosophersButtonsBox);
-        philosophersRootNode.setTop(philosophersButtonsBox);
-        philosophersRootNode.setCenter(philosophersPane);
+        rootNode = new BorderPane();
+        HBox ButtonsBox = new HBox();
+        setButtonsForPhilosophersProblem(ButtonsBox);
+        rootNode.setTop(ButtonsBox);
 
         //TO DO: tabs are bugged in order to see the shapes after pressing start
         // we have to go to another tab and then back to the first one
@@ -48,7 +54,7 @@ public class App extends Application {
         //VBox vBox = new VBox(tabPane);//change root with vBox in order to see how tabs look
         */
 
-        Scene scene = new Scene(philosophersRootNode, 800, 600);
+        Scene scene = new Scene(rootNode, width, height);
 
         setStageOnResizeEventListeners(stage);
         stage.setTitle("CSP");
@@ -63,22 +69,32 @@ public class App extends Application {
         Button startCorrectExecButton = new Button("Start correctSync demo");
         startCorrectExecButton.setOnAction(this::startCorrectSynchronizationButton);
 
+        Button startProducerConsumerButton = new Button("Start producerConsumer");
+        startProducerConsumerButton.setOnAction(this::startProducerConsumer);
+
         Button stopExecButton = new Button("Stop demo");
         stopExecButton.setOnAction(this::stopButton);
 
-        horizontalBox.getChildren().addAll(startDeadlockExecButton, startCorrectExecButton, stopExecButton);
+        horizontalBox.getChildren().addAll(startDeadlockExecButton, startCorrectExecButton, startProducerConsumerButton, stopExecButton);
     }
 
     private void startDeadlockPossibilityButton(ActionEvent actionEvent) {
+        rootNode.setCenter(philosophersPane);
         philosophersPane.setIsActive();
         philosophersPane.drawInitialFormation();
         philosophersLogic.createAndStartDeadlockProtocolThreads();
     }
 
     private void startCorrectSynchronizationButton(ActionEvent actionEvent) {
+        rootNode.setCenter(philosophersPane);
         philosophersPane.setIsActive();
         philosophersPane.drawInitialFormation();
         philosophersLogic.createAndStartSynchronizedProtocolThreads();
+    }
+
+    private void startProducerConsumer(ActionEvent actionEvent) {
+        rootNode.setCenter(producerConsumerPane);
+        producerConsumerPane.drawInitialFormation();
     }
 
     private void stopButton(ActionEvent actionEvent) {
@@ -90,8 +106,11 @@ public class App extends Application {
         ChangeListener<Number> stageSizeChangeListener = (observableValue, oldValue, newValue) -> {
             philosophersPane.setActualWidth(stage.getWidth());
             philosophersPane.setActualHeight(stage.getHeight());
+            producerConsumerPane.setActualWidth(stage.getWidth());
+            producerConsumerPane.setActualHeight(stage.getHeight());
             philosophersPane.recenterPhilosophers();
             philosophersPane.recenterChopsticks();
+            producerConsumerPane.recenterSquares();
         };
 
         stage.widthProperty().addListener(stageSizeChangeListener);

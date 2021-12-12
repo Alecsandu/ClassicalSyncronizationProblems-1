@@ -1,6 +1,6 @@
 package org.openjfx.producersandconsumersproblem;
 
-public class Producer extends Thread{
+public class Consumer extends Thread{
     private ProducerConsumerLogic producerConsumerLogic;
     private boolean isRunning;
     @Override

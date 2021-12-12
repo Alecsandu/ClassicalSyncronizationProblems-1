@@ -1,7 +1,6 @@
 package org.openjfx.philosophersproblem;
 
 import javafx.scene.paint.Color;
-import org.openjfx.geometry.GeometryPane;
 
 public class PhilosophersPane extends GeometryPane {
     private boolean isDrawn = false;
@@ -59,15 +58,15 @@ public class PhilosophersPane extends GeometryPane {
     }
 
     public synchronized void setPhilosopherColorToThinking(int i) {
-        setColorOfCircle(i, Color.GREEN);
+        setColorOfCircle(i + 1, Color.GREEN);
     }
 
     public synchronized void setPhilosopherColorToHungry(int i) {
-        setColorOfCircle(i, Color.YELLOW);
+        setColorOfCircle(i + 1, Color.YELLOW);
     }
 
     public synchronized void setPhilosopherColorToEating(int i) {
-        setColorOfCircle(i, Color.RED);
+        setColorOfCircle(i + 1, Color.RED);
     }
 
     public synchronized void setChopstickAvailable(int i) {

@@ -1,7 +1,9 @@
-package org.openjfx.geometry;
+package org.openjfx.philosophersproblem;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import org.openjfx.geometry.Point;
+import org.openjfx.geometry.ShapePane;
 
 import java.util.stream.IntStream;
 
@@ -68,8 +70,8 @@ public class GeometryPane extends ShapePane {
     }
 
     public void recenterAllCircles() {
-        setCenterOfCircle(getCentralCircle(), getCentrePoint());
-        IntStream.range(0, totalNumberOfPhilosophers).forEach(i ->
+        setCenterOfCircle(0, getCentrePoint());
+        IntStream.range(1, totalNumberOfPhilosophers + 1).forEach(i ->
                 setCenterOfCircle(i, getCenterOfCircleAroundCenter(i)));
     }
 
