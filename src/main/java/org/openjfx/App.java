@@ -24,15 +24,16 @@ public class App extends Application {
     @Override
     public void start(Stage stage) {
         int numOfPhilosophers = 5;
+        int bufferSize = 8;
         int width = 800;
         int height = 600;
         philosophersPane = new PhilosophersPane(numOfPhilosophers, width, height);
         philosophersPane.setBackground(new Background(new BackgroundFill(Color.web("#aabbbf"), CornerRadii.EMPTY, Insets.EMPTY)));
-        producerConsumerPane = new ProducerConsumerPane(5, width, height);
+        producerConsumerPane = new ProducerConsumerPane(bufferSize, width, height);
         producerConsumerPane.setBackground(new Background(new BackgroundFill(Color.web("#aaabbb"), CornerRadii.EMPTY, Insets.EMPTY)));
 
         philosophersLogic = new PhilosophersLogic(numOfPhilosophers, philosophersPane);
-        producerConsumerLogic = new ProducerConsumerLogic();
+        producerConsumerLogic = new ProducerConsumerLogic(bufferSize, producerConsumerPane);
 
         rootNode = new BorderPane();
         HBox ButtonsBox = new HBox();
@@ -94,12 +95,17 @@ public class App extends Application {
 
     private void startProducerConsumer(ActionEvent actionEvent) {
         rootNode.setCenter(producerConsumerPane);
+        producerConsumerPane.setIsActive();
         producerConsumerPane.drawInitialFormation();
+        producerConsumerLogic.createAndStartConsumerProducer();
     }
 
     private void stopButton(ActionEvent actionEvent) {
         philosophersPane.setIsNotActive();
         philosophersLogic.checkThreadsStateAndStopThem();
+
+        producerConsumerPane.setIsNotActive();
+        producerConsumerLogic.stopConsumerAndProducer();
     }
 
     private void setStageOnResizeEventListeners(Stage stage) {
