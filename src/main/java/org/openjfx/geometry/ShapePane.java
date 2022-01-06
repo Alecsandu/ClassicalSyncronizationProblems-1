@@ -37,9 +37,9 @@ public class ShapePane extends Pane {
     public final void drawSquare(Point point, double length, Color color) {
         Rectangle rectangle = new Rectangle();
         rectangle.setStroke(color);
-        setCenterOfSquare(rectangle, point);
         rectangle.setHeight(length);
         rectangle.setWidth(length);
+        setCenterOfSquare(rectangle, point);
         this.getChildren().add(rectangle);
     }
 

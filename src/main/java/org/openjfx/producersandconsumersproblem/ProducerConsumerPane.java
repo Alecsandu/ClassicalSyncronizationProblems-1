@@ -16,7 +16,7 @@ public class ProducerConsumerPane extends GeometryPane {
     public void drawInitialFormation() {
         if (!isDrawn()) {
             drawBuffer();
-            this.isDrawn = true;
+            setDrawn(true);
         }
     }
 
@@ -32,7 +32,7 @@ public class ProducerConsumerPane extends GeometryPane {
         }
     }
 
-    public synchronized void redrawRectangles(ArrayList<Boolean> positions, int bufferSize){
+    public synchronized void refillRectanglesAccordingToBand(ArrayList<Boolean> positions, int bufferSize){
         for (int i = 0; i < positions.size(); i++){
             if (positions.get(i) == Boolean.TRUE){
                 this.setSpotToOccupied(i);

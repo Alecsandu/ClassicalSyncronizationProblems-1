@@ -7,7 +7,7 @@ import org.openjfx.geometry.ShapePane;
 import java.util.stream.IntStream;
 
 public class GeometryPane extends ShapePane {
-    private int bufferSize;
+    private final int bufferSize;
     private int squareLength;
     public GeometryPane(int bufferSize, double actualWidth, double actualHeight) {
         super(actualWidth, actualHeight);
@@ -36,7 +36,7 @@ public class GeometryPane extends ShapePane {
     }
 
     private double getVectorStartPoint() {
-        return (getActualWidth() - getTotalVectorWidth()) / 2;
+        return (getActualWidth() - getTotalVectorWidth()) / 2 + (double) squareLength / 2;
     }
 
     private double getTotalVectorWidth() {

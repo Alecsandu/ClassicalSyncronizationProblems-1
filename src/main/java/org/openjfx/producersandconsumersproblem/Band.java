@@ -51,8 +51,7 @@ public class Band {
         while (isBandFull())
             wait();
         this.addObject();
-        this.producerConsumerPane.redrawRectangles(this.band, maxBandDimension);
-        System.out.println("Produced");
+        this.producerConsumerPane.refillRectanglesAccordingToBand(this.band, maxBandDimension);
         notify();
     }
 
@@ -84,8 +83,7 @@ public class Band {
         while (!band.get(0))
             wait();
         this.takeOutObject();
-        this.producerConsumerPane.redrawRectangles(this.band, maxBandDimension);
-        System.out.println("Consummed ");
+        this.producerConsumerPane.refillRectanglesAccordingToBand(this.band, maxBandDimension);
         notify();
     }
 }
