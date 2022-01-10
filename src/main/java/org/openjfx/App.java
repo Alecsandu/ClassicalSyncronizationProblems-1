@@ -13,27 +13,37 @@ import org.openjfx.philosophersproblem.PhilosophersLogic;
 import org.openjfx.philosophersproblem.PhilosophersPane;
 import org.openjfx.producersandconsumersproblem.ProducerConsumerLogic;
 import org.openjfx.producersandconsumersproblem.ProducerConsumerPane;
+import org.openjfx.readersandwritersproblem.ReadersWritersLogic;
+import org.openjfx.readersandwritersproblem.ReadersWritersPane;
+import org.openjfx.readersandwritersproblem.Writer;
 
 public class App extends Application {
     private PhilosophersLogic philosophersLogic;
     private PhilosophersPane philosophersPane;
     private ProducerConsumerPane producerConsumerPane;
     private ProducerConsumerLogic producerConsumerLogic;
+    private ReadersWritersPane readersWritersPane;
+    private ReadersWritersLogic readersWritersLogic;
     private BorderPane rootNode;
 
     @Override
     public void start(Stage stage) {
         int numOfPhilosophers = 5;
         int bufferSize = 8;
+        int numOfReaders = 3;
+        int numOfWriters = 3;
         int width = 800;
         int height = 600;
         philosophersPane = new PhilosophersPane(numOfPhilosophers, width, height);
         philosophersPane.setBackground(new Background(new BackgroundFill(Color.web("#aabbbf"), CornerRadii.EMPTY, Insets.EMPTY)));
         producerConsumerPane = new ProducerConsumerPane(bufferSize, width, height);
         producerConsumerPane.setBackground(new Background(new BackgroundFill(Color.web("#aaabbb"), CornerRadii.EMPTY, Insets.EMPTY)));
+        readersWritersPane = new ReadersWritersPane(numOfReaders, numOfWriters, width, height);
+        readersWritersPane.setBackground(new Background(new BackgroundFill(Color.web("#aaabbb"), CornerRadii.EMPTY, Insets.EMPTY)));
 
         philosophersLogic = new PhilosophersLogic(numOfPhilosophers, philosophersPane);
         producerConsumerLogic = new ProducerConsumerLogic(bufferSize, producerConsumerPane);
+        readersWritersLogic = new ReadersWritersLogic(numOfReaders, numOfWriters, readersWritersPane);
 
         rootNode = new BorderPane();
         HBox ButtonsBox = new HBox();
@@ -73,10 +83,13 @@ public class App extends Application {
         Button startProducerConsumerButton = new Button("Start producerConsumer");
         startProducerConsumerButton.setOnAction(this::startProducerConsumer);
 
+        Button startReadersWritersButton = new Button("Start Readers-Writers");
+        startReadersWritersButton.setOnAction(this::startReadersWriters);
+
         Button stopExecButton = new Button("Stop demo");
         stopExecButton.setOnAction(this::stopButton);
 
-        horizontalBox.getChildren().addAll(startDeadlockExecButton, startCorrectExecButton, startProducerConsumerButton, stopExecButton);
+        horizontalBox.getChildren().addAll(startDeadlockExecButton, startCorrectExecButton, startProducerConsumerButton, startReadersWritersButton, stopExecButton);
     }
 
     private void startDeadlockPossibilityButton(ActionEvent actionEvent) {
@@ -100,12 +113,22 @@ public class App extends Application {
         producerConsumerLogic.createAndStartConsumerProducer();
     }
 
+    private void startReadersWriters(ActionEvent actionEvent){
+        rootNode.setCenter(readersWritersPane);
+        readersWritersPane.setIsActive();
+        readersWritersPane.drawInitialFormation();
+        readersWritersLogic.createAndStartReadersWriters();
+    }
+
     private void stopButton(ActionEvent actionEvent) {
         philosophersPane.setIsNotActive();
         philosophersLogic.checkThreadsStateAndStopThem();
 
         producerConsumerPane.setIsNotActive();
         producerConsumerLogic.stopConsumerAndProducer();
+
+        readersWritersPane.setIsNotActive();
+        readersWritersLogic.stopReadersWriters();
     }
 
     private void setStageOnResizeEventListeners(Stage stage) {

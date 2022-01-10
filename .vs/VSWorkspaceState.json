@@ -1,0 +1,15 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\src",
+    "\\src\\main",
+    "\\src\\main\\java",
+    "\\src\\main\\java\\org",
+    "\\src\\main\\java\\org\\openjfx",
+    "\\src\\main\\java\\org\\openjfx\\philosophersproblem",
+    "\\src\\main\\java\\org\\openjfx\\producersandconsumersproblem",
+    "\\src\\main\\java\\org\\openjfx\\readersandwritersproblem"
+  ],
+  "SelectedNode": "\\src\\main\\java\\org\\openjfx\\App.java",
+  "PreviewInSolutionExplorer": false
+}
