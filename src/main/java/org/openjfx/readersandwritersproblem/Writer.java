@@ -1,14 +1,14 @@
 package org.openjfx.readersandwritersproblem;
 
 public class Writer extends Thread {
-    int writerId;
-    boolean isRunning;
-    ReadersWritersLogic parent;
+    private final int writerId;
+    private final ReadersWritersLogic parent;
+    private boolean isRunning;
 
     Writer(int id, ReadersWritersLogic readersWritersLogic){
-        writerId = id;
+        this.writerId = id;
         this.parent = readersWritersLogic;
-        isRunning = true;
+        this.isRunning = true;
     }
 
     @Override
@@ -25,21 +25,21 @@ public class Writer extends Thread {
     }
 
     public void think() throws InterruptedException{
-        parent.getReadersWritersPane().setWriterColorToThinking(this.writerId);
+        parent.getReadersWritersPane().setWriterColorToThinking(writerId);
         Thread.sleep((int) (Math.random() * 10000));
         System.out.println("Writer " + writerId + " is done thinking.");
     }
 
     private void waitToWrite() throws InterruptedException {
-        parent.getReadersWritersPane().setWriterColorToWaiting(this.writerId);
-        parent.writersSemaphore.acquire();
+        parent.getReadersWritersPane().setWriterColorToWaiting(writerId);
+        parent.getWritersSemaphore().acquire();
     }
 
     private void write() throws InterruptedException {
-        parent.getReadersWritersPane().setWriterColorToWriting(this.writerId);
+        parent.getReadersWritersPane().setWriterColorToWriting(writerId);
         System.out.println("Writer " + writerId + " is writing.");
         Thread.sleep(4000);
-        parent.writersSemaphore.release();
+        parent.getWritersSemaphore().release();
         System.out.println("Writer " + writerId + " is done writing.");
     }
 

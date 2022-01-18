@@ -1,7 +1,6 @@
 package org.openjfx.producersandconsumersproblem;
 
 public class Producer extends Thread{
-    private ProducerConsumerLogic producerConsumerLogic;
     private Band band;
     private boolean isRunning;
 

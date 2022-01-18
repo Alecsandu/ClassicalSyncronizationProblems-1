@@ -3,16 +3,14 @@ package org.openjfx.readersandwritersproblem;
 import javafx.scene.paint.Color;
 
 public class ReadersWritersPane extends GeometryPane {
-    boolean isActive;
     boolean isDrawn;
 
-    private int numberOfReaders;
-    private int numberOfWriters;
+    private final int numberOfReaders;
+    private final int numberOfWriters;
 
     public ReadersWritersPane(int numOfReaders, int numOfWriters, double actualWidth, double actualHeight) {
         super(actualWidth, actualHeight);
         isDrawn = false;
-        isActive = false;
         this.numberOfReaders = numOfReaders;
         this.numberOfWriters = numOfWriters;
     }
@@ -29,10 +27,6 @@ public class ReadersWritersPane extends GeometryPane {
     public void drawData(){
         setCircleRadius(100);
         drawCircleInCenter(Color.GREY);
-    }
-
-    public boolean isActive() {
-        return isActive;
     }
 
     public void setReaderColorToThinking(int i) {
@@ -53,15 +47,6 @@ public class ReadersWritersPane extends GeometryPane {
     }
     public void setWriterColorToWriting(int i) {
         setColorOfCircle(i + numberOfReaders + 1, Color.RED);
-    }
-
-
-    public void setIsActive() {
-        isActive = true;
-    }
-
-    public void setIsNotActive() {
-        isActive = false;
     }
 
     public boolean isDrawn() { return isDrawn; }

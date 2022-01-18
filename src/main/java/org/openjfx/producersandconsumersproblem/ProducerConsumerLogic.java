@@ -1,25 +1,24 @@
 package org.openjfx.producersandconsumersproblem;
 
 public class ProducerConsumerLogic {
-    ProducerConsumerPane producerConsumerPane;
-    int bufferSize;
-    Producer producer;
-    Consumer consumer;
-    Band band;
+    private final Integer bufferSize;
+    private final ProducerConsumerPane producerConsumerPane;
+    private Producer producer;
+    private Consumer consumer;
+    private Band band;
 
     private boolean startState;
 
-    public ProducerConsumerLogic(int bufferSize, ProducerConsumerPane producerConsumerPane){
+    public ProducerConsumerLogic(Integer bufferSize, ProducerConsumerPane producerConsumerPane){
         this.bufferSize = bufferSize;
         this.producerConsumerPane = producerConsumerPane;
-
-        startState = false;
+        this.startState = false;
     }
 
     public void createAndStartConsumerProducer(){
-        this.createBand();
-        this.createConsumer();
-        this.createProducer();
+        createBand();
+        createConsumer();
+        createProducer();
 
         producer.start();
         consumer.start();
@@ -27,30 +26,30 @@ public class ProducerConsumerLogic {
     }
 
     public void createBand(){
-        this.band = new Band(this.bufferSize, this.producerConsumerPane);
+        band = new Band(bufferSize, producerConsumerPane);
     }
 
     public void createConsumer(){
-        this.consumer = new Consumer(this.band);
+        consumer = new Consumer(band);
     }
 
     public void createProducer(){
-        this.producer = new Producer(this.band);
+        producer = new Producer(band);
     }
 
     public void stopConsumerAndProducer() {
         if (startState) {
-            closeProducer();
-            closeConsumer();
+            stopProducer();
+            stopConsumer();
         }
     }
 
-    public void closeProducer(){
-        this.producer.setRunning(false);
+    public void stopProducer(){
+        producer.setRunning(false);
     }
 
-    public void closeConsumer(){
-        this.consumer.setRunning(false);
+    public void stopConsumer(){
+        consumer.setRunning(false);
     }
 
 }

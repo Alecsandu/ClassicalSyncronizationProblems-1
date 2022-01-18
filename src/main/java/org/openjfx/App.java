@@ -15,7 +15,6 @@ import org.openjfx.producersandconsumersproblem.ProducerConsumerLogic;
 import org.openjfx.producersandconsumersproblem.ProducerConsumerPane;
 import org.openjfx.readersandwritersproblem.ReadersWritersLogic;
 import org.openjfx.readersandwritersproblem.ReadersWritersPane;
-import org.openjfx.readersandwritersproblem.Writer;
 
 public class App extends Application {
     private PhilosophersLogic philosophersLogic;
@@ -24,7 +23,14 @@ public class App extends Application {
     private ProducerConsumerLogic producerConsumerLogic;
     private ReadersWritersPane readersWritersPane;
     private ReadersWritersLogic readersWritersLogic;
-    private BorderPane rootNode;
+
+    private BorderPane stageRootNode;
+
+    private static Boolean buttonIsActive = false;
+
+    private static final int WINDOW_WIDTH = 800;
+    private static final int WINDOW_HEIGHT = 600;
+    private static final Background GENERIC_BACKGROUND = new Background(new BackgroundFill(Color.web("#aaabbb"), CornerRadii.EMPTY, Insets.EMPTY));
 
     @Override
     public void start(Stage stage) {
@@ -32,103 +38,100 @@ public class App extends Application {
         int bufferSize = 8;
         int numOfReaders = 3;
         int numOfWriters = 3;
-        int width = 800;
-        int height = 600;
-        philosophersPane = new PhilosophersPane(numOfPhilosophers, width, height);
-        philosophersPane.setBackground(new Background(new BackgroundFill(Color.web("#aabbbf"), CornerRadii.EMPTY, Insets.EMPTY)));
-        producerConsumerPane = new ProducerConsumerPane(bufferSize, width, height);
-        producerConsumerPane.setBackground(new Background(new BackgroundFill(Color.web("#aaabbb"), CornerRadii.EMPTY, Insets.EMPTY)));
-        readersWritersPane = new ReadersWritersPane(numOfReaders, numOfWriters, width, height);
-        readersWritersPane.setBackground(new Background(new BackgroundFill(Color.web("#aaabbb"), CornerRadii.EMPTY, Insets.EMPTY)));
+
+        philosophersPane = new PhilosophersPane(numOfPhilosophers, WINDOW_WIDTH, WINDOW_HEIGHT);
+        philosophersPane.setBackground(GENERIC_BACKGROUND);
+        producerConsumerPane = new ProducerConsumerPane(bufferSize, WINDOW_WIDTH, WINDOW_HEIGHT);
+        producerConsumerPane.setBackground(GENERIC_BACKGROUND);
+        readersWritersPane = new ReadersWritersPane(numOfReaders, numOfWriters, WINDOW_WIDTH, WINDOW_HEIGHT);
+        readersWritersPane.setBackground(GENERIC_BACKGROUND);
 
         philosophersLogic = new PhilosophersLogic(numOfPhilosophers, philosophersPane);
         producerConsumerLogic = new ProducerConsumerLogic(bufferSize, producerConsumerPane);
         readersWritersLogic = new ReadersWritersLogic(numOfReaders, numOfWriters, readersWritersPane);
 
-        rootNode = new BorderPane();
-        HBox ButtonsBox = new HBox();
-        setButtonsForPhilosophersProblem(ButtonsBox);
-        rootNode.setTop(ButtonsBox);
-
-        //TO DO: tabs are bugged in order to see the shapes after pressing start
-        // we have to go to another tab and then back to the first one
-        /*
-        TabPane tabPane = new TabPane();
-        Tab tab1 = new Tab("Philosphers problem", root);
-        Tab tab2 = new Tab("Producers and Consumers"  , new Label("Description"));
-        Tab tab3 = new Tab("Readers and Writers" , new Label("Ceva"));
-
-        tabPane.getTabs().add(tab1);
-        tabPane.getTabs().add(tab2);
-        tabPane.getTabs().add(tab3);
-
-        //VBox vBox = new VBox(tabPane);//change root with vBox in order to see how tabs look
-        */
-
-        Scene scene = new Scene(rootNode, width, height);
+        stageRootNode = new BorderPane();
+        HBox ButtonsBox = getButtonsForPhilosophersProblem();
+        stageRootNode.setTop(ButtonsBox);
 
         setStageOnResizeEventListeners(stage);
         stage.setTitle("CSP");
+        Scene scene = new Scene(stageRootNode, WINDOW_WIDTH, WINDOW_HEIGHT);
         stage.setScene(scene);
         stage.show();
     }
 
-    private void setButtonsForPhilosophersProblem(HBox horizontalBox) {
-        Button startDeadlockExecButton = new Button("Start deadlock demo");
+    private HBox getButtonsForPhilosophersProblem() {
+        HBox horizontalBox = new HBox();
+        Button startDeadlockExecButton = new Button("Philosophers-DeadLock");
         startDeadlockExecButton.setOnAction(this::startDeadlockPossibilityButton);
 
-        Button startCorrectExecButton = new Button("Start correctSync demo");
+        Button startCorrectExecButton = new Button("Philosophers-Sync");
         startCorrectExecButton.setOnAction(this::startCorrectSynchronizationButton);
 
-        Button startProducerConsumerButton = new Button("Start producerConsumer");
+        Button startProducerConsumerButton = new Button("Producers-Consumers");
         startProducerConsumerButton.setOnAction(this::startProducerConsumer);
 
-        Button startReadersWritersButton = new Button("Start Readers-Writers");
+        Button startReadersWritersButton = new Button("Readers-Writers");
         startReadersWritersButton.setOnAction(this::startReadersWriters);
 
-        Button stopExecButton = new Button("Stop demo");
+        Button stopExecButton = new Button("Finish");
         stopExecButton.setOnAction(this::stopButton);
 
-        horizontalBox.getChildren().addAll(startDeadlockExecButton, startCorrectExecButton, startProducerConsumerButton, startReadersWritersButton, stopExecButton);
+        horizontalBox.getChildren()
+                .addAll(startDeadlockExecButton,
+                        startCorrectExecButton,
+                        startProducerConsumerButton,
+                        startReadersWritersButton,
+                        stopExecButton);
+        return horizontalBox;
     }
 
     private void startDeadlockPossibilityButton(ActionEvent actionEvent) {
-        rootNode.setCenter(philosophersPane);
-        philosophersPane.setIsActive();
-        philosophersPane.drawInitialFormation();
-        philosophersLogic.createAndStartDeadlockProtocolThreads();
+        if (!buttonIsActive) {
+            buttonIsActive = true;
+            stageRootNode.setCenter(philosophersPane);
+            philosophersPane.drawInitialFormation();
+            philosophersLogic.createAndStartDeadlockProtocolThreads();
+        }
     }
 
     private void startCorrectSynchronizationButton(ActionEvent actionEvent) {
-        rootNode.setCenter(philosophersPane);
-        philosophersPane.setIsActive();
-        philosophersPane.drawInitialFormation();
-        philosophersLogic.createAndStartSynchronizedProtocolThreads();
+        if (!buttonIsActive) {
+            buttonIsActive = true;
+            stageRootNode.setCenter(philosophersPane);
+            philosophersPane.drawInitialFormation();
+            philosophersLogic.createAndStartSynchronizedProtocolThreads();
+        }
     }
 
     private void startProducerConsumer(ActionEvent actionEvent) {
-        rootNode.setCenter(producerConsumerPane);
-        producerConsumerPane.setIsActive();
-        producerConsumerPane.drawInitialFormation();
-        producerConsumerLogic.createAndStartConsumerProducer();
+        if (!buttonIsActive) {
+            buttonIsActive = true;
+            stageRootNode.setCenter(producerConsumerPane);
+            producerConsumerPane.drawInitialFormation();
+            producerConsumerLogic.createAndStartConsumerProducer();
+        }
     }
 
     private void startReadersWriters(ActionEvent actionEvent){
-        rootNode.setCenter(readersWritersPane);
-        readersWritersPane.setIsActive();
-        readersWritersPane.drawInitialFormation();
-        readersWritersLogic.createAndStartReadersWriters();
+        if (!buttonIsActive) {
+            buttonIsActive = true;
+            stageRootNode.setCenter(readersWritersPane);
+            readersWritersPane.drawInitialFormation();
+            readersWritersLogic.createAndStartReadersWriters();
+        }
     }
 
     private void stopButton(ActionEvent actionEvent) {
-        philosophersPane.setIsNotActive();
-        philosophersLogic.checkThreadsStateAndStopThem();
+        if (buttonIsActive) {
+            buttonIsActive = false;
+            philosophersLogic.checkThreadsStateAndStopThem();
 
-        producerConsumerPane.setIsNotActive();
-        producerConsumerLogic.stopConsumerAndProducer();
+            producerConsumerLogic.stopConsumerAndProducer();
 
-        readersWritersPane.setIsNotActive();
-        readersWritersLogic.stopReadersWriters();
+            readersWritersLogic.stopReadersWriters();
+        }
     }
 
     private void setStageOnResizeEventListeners(Stage stage) {

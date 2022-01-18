@@ -1,14 +1,14 @@
 package org.openjfx.readersandwritersproblem;
 
 public class Reader extends Thread {
-    int readerId;
-    boolean isRunning;
-    ReadersWritersLogic parent;
+    private final int readerId;
+    private boolean isRunning;
+    private final ReadersWritersLogic parent;
 
-    Reader(int id, ReadersWritersLogic readersWritersLogic){
-        this.readerId = id;
+    Reader(int readerId, ReadersWritersLogic readersWritersLogic){
+        this.readerId = readerId;
         this.parent = readersWritersLogic;
-        isRunning = true;
+        this.isRunning = true;
     }
 
     @Override
@@ -25,29 +25,29 @@ public class Reader extends Thread {
     }
 
     public void think() throws InterruptedException{
-        parent.getReadersWritersPane().setReaderColorToThinking(this.readerId);
+        parent.getReadersWritersPane().setReaderColorToThinking(readerId);
         Thread.sleep((int) (Math.random() * 10000));
-        System.out.println("Reader " + this.readerId + " is done thinking.");
+        System.out.println("Reader " + readerId + " is done thinking.");
     }
 
     private void waitToRead() throws InterruptedException {
-        parent.getReadersWritersPane().setReaderColorToWaiting(this.readerId);
-        parent.readersSemaphore.acquire();
+        parent.getReadersWritersPane().setReaderColorToWaiting(readerId);
+        parent.getReadersSemaphore().acquire();
         if (parent.getReadersCount() == 0)
-            parent.writersSemaphore.acquire();
+            parent.getWritersSemaphore().acquire();
         parent.incrementReaders();
-        parent.readersSemaphore.release();
+        parent.getReadersSemaphore().release();
     }
 
     private void read() throws InterruptedException {
-        parent.getReadersWritersPane().setReaderColorToReading(this.readerId);
+        parent.getReadersWritersPane().setReaderColorToReading(readerId);
         System.out.println("Reader " + readerId + " is reading.");
-        Thread.sleep(4000);
-        parent.readersSemaphore.acquire();
+        Thread.sleep(3000);  // changed it from 4000
+        parent.getReadersSemaphore().acquire();
         parent.decrementReaders();
         if (parent.getReadersCount() == 0)
-            parent.writersSemaphore.release();
-        parent.readersSemaphore.release();
+            parent.getWritersSemaphore().release();
+        parent.getReadersSemaphore().release();
         System.out.println("Reader " + readerId + " is done reading.");
     }
 

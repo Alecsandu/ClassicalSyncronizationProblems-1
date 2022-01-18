@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public class Band {
     private final ArrayList<Boolean> band;
-    private int maxBandDimension;
-    private ProducerConsumerPane producerConsumerPane;
+    private final int maxBandDimension;
+    private final ProducerConsumerPane producerConsumerPane;
 
     public Band(int maxBandDimension, ProducerConsumerPane producerConsumerPane)
     {
@@ -21,7 +21,7 @@ public class Band {
         }
     }
 
-    public boolean isBandFull(){
+    public synchronized boolean isBandFull(){
         for (Boolean position : band) {
             if (!position) {
                 return false;

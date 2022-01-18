@@ -6,11 +6,9 @@ import java.util.ArrayList;
 
 public class ProducerConsumerPane extends GeometryPane {
     private boolean isDrawn = false;
-    private boolean isActive = false;
 
     public ProducerConsumerPane(int bufferSize, double actualWidth, double actualHeight) {
         super(bufferSize, actualWidth, actualHeight);
-
     }
 
     public void drawInitialFormation() {
@@ -60,13 +58,5 @@ public class ProducerConsumerPane extends GeometryPane {
 
     public void setDrawn(boolean drawn) {
         isDrawn = drawn;
-    }
-
-    public void setIsActive() {
-        isActive = true;
-    }
-
-    public void setIsNotActive() {
-        isActive = false;
     }
 }

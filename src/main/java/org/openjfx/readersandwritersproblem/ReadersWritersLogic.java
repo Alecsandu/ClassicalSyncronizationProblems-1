@@ -8,12 +8,12 @@ import java.util.stream.IntStream;
 public class ReadersWritersLogic {
     private final int numberOfReaders;
     private final int numberOfWriters;
-    List<Reader> readersList;
-    List<Writer> writersList;
+    private List<Reader> readersList;
+    private List<Writer> writersList;
 
-    Semaphore readersSemaphore;
-    Semaphore writersSemaphore;
-    int readersCount;
+    private Semaphore readersSemaphore;
+    private Semaphore writersSemaphore;
+    private int readersCount;
 
     ReadersWritersPane readersWritersPane;
 
@@ -61,8 +61,23 @@ public class ReadersWritersLogic {
     public void decrementReaders() { readersCount -= 1; }
     public int getReadersCount() { return readersCount; }
 
-
     public ReadersWritersPane getReadersWritersPane() {
         return readersWritersPane;
+    }
+
+    public Semaphore getReadersSemaphore() {
+        return readersSemaphore;
+    }
+
+    public void setReadersSemaphore(Semaphore readersSemaphore) {
+        this.readersSemaphore = readersSemaphore;
+    }
+
+    public Semaphore getWritersSemaphore() {
+        return writersSemaphore;
+    }
+
+    public void setWritersSemaphore(Semaphore writersSemaphore) {
+        this.writersSemaphore = writersSemaphore;
     }
 }

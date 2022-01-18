@@ -1,8 +1,7 @@
 package org.openjfx.producersandconsumersproblem;
 
 public class Consumer extends Thread{
-    private ProducerConsumerLogic producerConsumerLogic;
-    private Band band;
+    private final Band band;
     private boolean isRunning;
 
     public Consumer(Band band){
@@ -13,12 +12,14 @@ public class Consumer extends Thread{
     @Override
     public void run() {
         while (isRunning) {
-                try
-                {
-                    Thread.sleep((int) (Math.random() * 1000));
-                    band.removeObject();
-                }
-                catch (InterruptedException ex){}
+            try
+            {
+                Thread.sleep((int) (Math.random() * 1000));
+                band.removeObject();
+            }
+            catch (InterruptedException ex){
+                System.out.println(ex.getMessage());
+            }
         }
     }
 

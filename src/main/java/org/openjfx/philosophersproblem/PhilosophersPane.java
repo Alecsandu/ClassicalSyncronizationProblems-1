@@ -4,7 +4,6 @@ import javafx.scene.paint.Color;
 
 public class PhilosophersPane extends GeometryPane {
     private boolean isDrawn = false;
-    private boolean isActive = false;
 
     public PhilosophersPane(int numberOfPhilosophers, double actualWidth, double actualHeight) {
         super(numberOfPhilosophers, actualWidth, actualHeight);
@@ -17,14 +16,6 @@ public class PhilosophersPane extends GeometryPane {
             drawChopsticks();
             this.isDrawn = true;
         }
-    }
-
-    public void setIsActive() {
-        isActive = true;
-    }
-
-    public void setIsNotActive() {
-        isActive = false;
     }
 
     private void drawTable() {

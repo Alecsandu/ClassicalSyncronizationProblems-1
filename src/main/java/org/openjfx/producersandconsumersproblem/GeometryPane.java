@@ -9,14 +9,16 @@ import java.util.stream.IntStream;
 public class GeometryPane extends ShapePane {
     private final int bufferSize;
     private int squareLength;
+
     public GeometryPane(int bufferSize, double actualWidth, double actualHeight) {
         super(actualWidth, actualHeight);
         this.bufferSize = bufferSize;
+        this.squareLength = 100;    //I don't know why you chose to set this to 100
     }
 
     public void drawAllSquares(Color color) {
-        IntStream.range(0, bufferSize).forEach(i ->
-                drawSquareOfTotal(i, color));
+        IntStream.range(0, bufferSize)
+                .forEach(i -> drawSquareOfTotal(i, color));
     }
 
     public void drawSquareOfTotal(int number, Color color) {
@@ -25,8 +27,8 @@ public class GeometryPane extends ShapePane {
     }
 
     public void recenterAllSquares() {
-        IntStream.range(0, bufferSize).forEach(i ->
-                setCenterOfSquare(i, getCenterOfSquareOfTotal(i)));
+        IntStream.range(0, bufferSize)
+                .forEach(i -> setCenterOfSquare(i, getCenterOfSquareOfTotal(i)));
     }
 
     public Point getCenterOfSquareOfTotal(int number) {
