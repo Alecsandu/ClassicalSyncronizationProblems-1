@@ -38,7 +38,7 @@ public class GeometryPane extends ShapePane {
     }
 
     private double getVectorStartPoint() {
-        return (getActualWidth() - getTotalVectorWidth()) / 2 + (double) squareLength / 2;
+        return (getPaneWidth() - getTotalVectorWidth()) / 2 + (double) squareLength / 2;
     }
 
     private double getTotalVectorWidth() {

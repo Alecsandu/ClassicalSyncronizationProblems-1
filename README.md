@@ -1,3 +1,1 @@
-# ClassicalSyncronizationProblems
-
-Oh yeah
+# ClassicalSynchronizationProblems

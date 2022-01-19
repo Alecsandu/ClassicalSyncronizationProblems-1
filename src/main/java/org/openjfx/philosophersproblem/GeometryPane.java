@@ -28,8 +28,8 @@ public class GeometryPane extends ShapePane {
     }
 
     public void drawAllCirclesAroundCenter(Color color) {
-        IntStream.range(0, totalNumberOfPhilosophers).forEach(i ->
-                drawCircleAroundCenter(i, color));
+        IntStream.range(0, totalNumberOfPhilosophers)
+                .forEach(i -> drawCircleAroundCenter(i, color));
     }
 
     public void drawCircleAroundCenter(int number, Color color) {
@@ -45,8 +45,8 @@ public class GeometryPane extends ShapePane {
     }
 
     public void drawAllLinesAroundCenter(Color color) {
-        IntStream.range(0, totalNumberOfPhilosophers).forEach(i ->
-                drawLineAroundCenter(i, color));
+        IntStream.range(0, totalNumberOfPhilosophers)
+                .forEach(i -> drawLineAroundCenter(i, color));
     }
 
     public void drawLineAroundCenter(int number, Color color) {

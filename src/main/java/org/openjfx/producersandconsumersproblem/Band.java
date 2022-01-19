@@ -48,8 +48,9 @@ public class Band {
 
     public synchronized void placeObject(boolean x) throws InterruptedException
     {
-        while (isBandFull())
+        while (isBandFull()) {
             wait();
+        }
         this.addObject();
         this.producerConsumerPane.refillRectanglesAccordingToBand(this.band, maxBandDimension);
         notify();
@@ -80,8 +81,9 @@ public class Band {
 
     public synchronized void removeObject() throws InterruptedException
     {
-        while (!band.get(0))
+        while (!band.get(0)) {
             wait();
+        }
         this.takeOutObject();
         this.producerConsumerPane.refillRectanglesAccordingToBand(this.band, maxBandDimension);
         notify();

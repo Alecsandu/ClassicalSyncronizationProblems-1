@@ -1,7 +1,6 @@
 package org.openjfx;
 
 import javafx.application.Application;
-import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -35,29 +34,30 @@ public class App extends Application {
     @Override
     public void start(Stage stage) {
         int numOfPhilosophers = 5;
-        int bufferSize = 8;
+        int bufferSize = 7;
         int numOfReaders = 3;
         int numOfWriters = 3;
 
         philosophersPane = new PhilosophersPane(numOfPhilosophers, WINDOW_WIDTH, WINDOW_HEIGHT);
         philosophersPane.setBackground(GENERIC_BACKGROUND);
+        philosophersLogic = new PhilosophersLogic(numOfPhilosophers, philosophersPane);
+
         producerConsumerPane = new ProducerConsumerPane(bufferSize, WINDOW_WIDTH, WINDOW_HEIGHT);
         producerConsumerPane.setBackground(GENERIC_BACKGROUND);
+        producerConsumerLogic = new ProducerConsumerLogic(bufferSize, producerConsumerPane);
+
         readersWritersPane = new ReadersWritersPane(numOfReaders, numOfWriters, WINDOW_WIDTH, WINDOW_HEIGHT);
         readersWritersPane.setBackground(GENERIC_BACKGROUND);
-
-        philosophersLogic = new PhilosophersLogic(numOfPhilosophers, philosophersPane);
-        producerConsumerLogic = new ProducerConsumerLogic(bufferSize, producerConsumerPane);
         readersWritersLogic = new ReadersWritersLogic(numOfReaders, numOfWriters, readersWritersPane);
 
         stageRootNode = new BorderPane();
         HBox ButtonsBox = getButtonsForPhilosophersProblem();
         stageRootNode.setTop(ButtonsBox);
 
-        setStageOnResizeEventListeners(stage);
-        stage.setTitle("CSP");
         Scene scene = new Scene(stageRootNode, WINDOW_WIDTH, WINDOW_HEIGHT);
         stage.setScene(scene);
+        stage.setTitle("CSP");
+        stage.setResizable(false);
         stage.show();
     }
 
@@ -132,21 +132,6 @@ public class App extends Application {
 
             readersWritersLogic.stopReadersWriters();
         }
-    }
-
-    private void setStageOnResizeEventListeners(Stage stage) {
-        ChangeListener<Number> stageSizeChangeListener = (observableValue, oldValue, newValue) -> {
-            philosophersPane.setActualWidth(stage.getWidth());
-            philosophersPane.setActualHeight(stage.getHeight());
-            producerConsumerPane.setActualWidth(stage.getWidth());
-            producerConsumerPane.setActualHeight(stage.getHeight());
-            philosophersPane.recenterPhilosophers();
-            philosophersPane.recenterChopsticks();
-            producerConsumerPane.recenterSquares();
-        };
-
-        stage.widthProperty().addListener(stageSizeChangeListener);
-        stage.heightProperty().addListener(stageSizeChangeListener);
     }
 
     @Override

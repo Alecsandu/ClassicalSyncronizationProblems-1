@@ -9,13 +9,13 @@ import javafx.scene.shape.Rectangle;
 import java.util.stream.Collectors;
 
 public class ShapePane extends Pane {
-    private double actualWidth;
-    private double actualHeight;
+    private double paneWidth;
+    private double paneHeight;
 
-    public ShapePane(double actualWidth, double actualHeight) {
+    public ShapePane(double width, double height) {
         super();
-        this.actualWidth = actualWidth;
-        this.actualHeight = actualHeight;
+        this.paneWidth = width;
+        this.paneHeight = height;
     }
 
     public final Circle drawCircle(Point point, double radius, Color color) {
@@ -104,22 +104,22 @@ public class ShapePane extends Pane {
     }
 
     public final Point getCentrePoint() {
-        return new Point(getActualWidth() / 2, getActualHeight() / 2);
+        return new Point(getPaneWidth() / 2, getPaneHeight() / 2);
     }
 
-    public double getActualWidth() {
-        return actualWidth;
+    public double getPaneWidth() {
+        return paneWidth;
     }
 
-    public void setActualWidth(double actualWidth) {
-        this.actualWidth = actualWidth;
+    public void setPaneWidth(double width) {
+        paneWidth = width;
     }
 
-    public double getActualHeight() {
-        return actualHeight;
+    public double getPaneHeight() {
+        return paneHeight;
     }
 
-    public void setActualHeight(double actualHeight) {
-        this.actualHeight = actualHeight;
+    public void setPaneHeight(double height) {
+        this.paneHeight = height;
     }
 }

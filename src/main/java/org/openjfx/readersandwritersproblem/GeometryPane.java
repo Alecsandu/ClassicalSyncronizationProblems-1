@@ -15,12 +15,12 @@ public class GeometryPane extends ShapePane {
 
     public void drawCircleInCenter(Color color) {
         Point centre = getCentrePoint();
-        Circle centralCircle = drawCircle(centre, circleRadius, color);  // E returnat degeaba pt. ca nu e folosit nicaieri
+        Circle centralCircle = drawCircle(centre, circleRadius, color);
     }
 
     public void drawReaders(int numberOfCircles, Color color){
-        Point ReaderCoordinates = new Point(getActualWidth() / 4, (getActualHeight()-200) / numberOfCircles);
-        circleRadius = ((getActualHeight()-200) / numberOfCircles) / 2;
+        Point ReaderCoordinates = new Point(getPaneWidth() / 4, (getPaneHeight()-200) / numberOfCircles);
+        circleRadius = ((getPaneHeight()-200) / numberOfCircles) / 2;
         for (int i = 0; i < numberOfCircles; i++){
             drawCircle(ReaderCoordinates, circleRadius, color);
             ReaderCoordinates.setY(ReaderCoordinates.getY() + circleRadius*2);
@@ -28,8 +28,8 @@ public class GeometryPane extends ShapePane {
     }
 
     public void drawWriters(int numberOfCircles, Color color){
-        Point ReaderCoordinates = new Point(getActualWidth()*3 / 4, (getActualHeight()-200) / numberOfCircles);
-        circleRadius = ((getActualHeight()-200) / numberOfCircles) / 2;
+        Point ReaderCoordinates = new Point(getPaneWidth()*3 / 4, (getPaneHeight()-200) / numberOfCircles);
+        circleRadius = ((getPaneHeight()-200) / numberOfCircles) / 2;
         for (int i = 0; i < numberOfCircles; i++){
             drawCircle(ReaderCoordinates, circleRadius, color);
             ReaderCoordinates.setY(ReaderCoordinates.getY() + circleRadius*2);
