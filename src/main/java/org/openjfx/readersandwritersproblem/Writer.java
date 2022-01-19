@@ -25,7 +25,6 @@ public class Writer extends Thread {
     }
 
     public void think() throws InterruptedException{
-        parent.getReadersWritersPane().setWriterColorToThinking(writerId);
         Thread.sleep((int) (Math.random() * 10000));
         System.out.println("Writer " + writerId + " is done thinking.");
     }
@@ -41,6 +40,7 @@ public class Writer extends Thread {
         Thread.sleep(4000);
         parent.getWritersSemaphore().release();
         System.out.println("Writer " + writerId + " is done writing.");
+        parent.getReadersWritersPane().setWriterColorToThinking(writerId);
     }
 
     public boolean isRunning() {

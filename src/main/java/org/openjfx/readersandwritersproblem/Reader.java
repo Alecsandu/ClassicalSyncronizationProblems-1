@@ -25,7 +25,6 @@ public class Reader extends Thread {
     }
 
     public void think() throws InterruptedException{
-        parent.getReadersWritersPane().setReaderColorToThinking(readerId);
         Thread.sleep((int) (Math.random() * 10000));
         System.out.println("Reader " + readerId + " is done thinking.");
     }
@@ -49,6 +48,7 @@ public class Reader extends Thread {
             parent.getWritersSemaphore().release();
         parent.getReadersSemaphore().release();
         System.out.println("Reader " + readerId + " is done reading.");
+        parent.getReadersWritersPane().setReaderColorToThinking(readerId);
     }
 
     public boolean isRunning() {

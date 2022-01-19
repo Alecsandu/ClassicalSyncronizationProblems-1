@@ -137,6 +137,8 @@ public class App extends Application {
     @Override
     public void stop() throws Exception {
         philosophersLogic.checkThreadsStateAndStopThem();
+        producerConsumerLogic.stopConsumerAndProducer();
+        readersWritersLogic.stopReadersWriters();
         super.stop();
     }
 

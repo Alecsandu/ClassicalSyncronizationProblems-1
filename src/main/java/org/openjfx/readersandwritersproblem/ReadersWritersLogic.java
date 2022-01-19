@@ -8,8 +8,8 @@ import java.util.stream.IntStream;
 public class ReadersWritersLogic {
     private final int numberOfReaders;
     private final int numberOfWriters;
-    private List<Reader> readersList;
-    private List<Writer> writersList;
+    private final List<Reader> readersList;
+    private final List<Writer> writersList;
 
     private Semaphore readersSemaphore;
     private Semaphore writersSemaphore;
