@@ -6,7 +6,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.IntStream;
 
 public class PhilosophersLogic {
-    private final int numberOfPhilosophers;
+    private int numberOfPhilosophers;
     private final List<Philosopher> threadList;
     private final PhilosophersPane philosophersPane;
     private final List<ReentrantLock> mutexes;
@@ -67,6 +67,10 @@ public class PhilosophersLogic {
 
     public int getNumberOfPhilosophers() {
         return numberOfPhilosophers;
+    }
+
+    public void setNumberOfPhilosophers(int numberOfPhilosophers) {
+        this.numberOfPhilosophers = numberOfPhilosophers;
     }
 
     public void checkThreadsStateAndStopThem() {

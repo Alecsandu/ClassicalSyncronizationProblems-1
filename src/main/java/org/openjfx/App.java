@@ -4,10 +4,14 @@ import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Slider;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 import org.openjfx.philosophersproblem.PhilosophersLogic;
 import org.openjfx.philosophersproblem.PhilosophersPane;
 import org.openjfx.producersandconsumersproblem.ProducerConsumerLogic;
@@ -27,26 +31,27 @@ public class App extends Application {
 
     private static Boolean buttonIsActive = false;
 
+    private static int numOfPhilosophers = 5;
+    private static int bufferSize = 4;
+    private static int numOfReaders = 3;
+    private static int numOfWriters = 3;
+
     private static final int WINDOW_WIDTH = 800;
     private static final int WINDOW_HEIGHT = 600;
-    private static final Background GENERIC_BACKGROUND = new Background(new BackgroundFill(Color.web("#93a397"), CornerRadii.EMPTY, Insets.EMPTY));
+    private static final Background GENERIC_BACKGROUND = new Background(new BackgroundFill(Color.web("#B4B4B4"), CornerRadii.EMPTY, Insets.EMPTY));
     private static final String BUTTON_STATIC_STYLE = "-fx-background-radius: 0;" +
-                    "-fx-background-color: rgb(55, 55, 56);" +
-                    "-fx-text-fill: rgb(220, 220, 220);";
+            "-fx-background-color: rgb(55, 55, 56);" +
+            "-fx-text-fill: rgb(220, 220, 220);";
     private static final String BUTTON_HOVER_STYLE = "-fx-background-radius: 0;" +
             "-fx-background-color: rgb(85, 85, 85);" +
             "-fx-text-fill: rgb(220, 220, 220);";
     private static final String BUTTON_CLICKED_STYLE = "-fx-background-radius: 0;" +
             "-fx-background-color: rgb(45, 45, 45);" +
             "-fx-text-fill: rgb(220, 220, 220);";
+    private static final String HORIZONTAL_BOX_DEFAULT_BACKGROUND_COLOR = "-fx-background-color: rgb(55, 55, 55);";
 
     @Override
     public void start(Stage stage) {
-        int numOfPhilosophers = 5;
-        int bufferSize = 7;
-        int numOfReaders = 3;
-        int numOfWriters = 3;
-
         philosophersPane = new PhilosophersPane(numOfPhilosophers, WINDOW_WIDTH, WINDOW_HEIGHT);
         philosophersPane.setBackground(GENERIC_BACKGROUND);
         philosophersLogic = new PhilosophersLogic(numOfPhilosophers, philosophersPane);
@@ -59,11 +64,15 @@ public class App extends Application {
         readersWritersPane.setBackground(GENERIC_BACKGROUND);
         readersWritersLogic = new ReadersWritersLogic(numOfReaders, numOfWriters, readersWritersPane);
 
-        HBox buttonsBox = getButtonsForPhilosophersProblem();
+        HBox buttonsBox = getButtonsForSynchronizationProblems();
+        HBox settingsBox = getSettingsForSynchronizationProblems();
+        VBox headerBox = new VBox();
+        headerBox.getChildren().addAll(buttonsBox, settingsBox);
+
         Pane emptyPane = new Pane();
         emptyPane.setBackground(GENERIC_BACKGROUND);
         stageRootNode = new BorderPane();
-        stageRootNode.setTop(buttonsBox);
+        stageRootNode.setTop(headerBox);
         stageRootNode.setCenter(emptyPane);
 
         Scene scene = new Scene(stageRootNode, WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -73,7 +82,7 @@ public class App extends Application {
         stage.show();
     }
 
-    private HBox getButtonsForPhilosophersProblem() {
+    private HBox getButtonsForSynchronizationProblems() {
         Button startDeadlockExecButton = withGivenLabelCreateButtonAfterSetStyleAndAction("Philosophers-DeadLock");
 
         Button startCorrectExecutionButton = withGivenLabelCreateButtonAfterSetStyleAndAction("Philosophers-Sync");
@@ -85,7 +94,7 @@ public class App extends Application {
         Button stopExecButton = withGivenLabelCreateButtonAfterSetStyleAndAction("Finish");
 
         HBox horizontalBox = new HBox();
-        horizontalBox.setStyle("-fx-background-color: rgb(55, 55, 55);");
+        horizontalBox.setStyle(HORIZONTAL_BOX_DEFAULT_BACKGROUND_COLOR);
         horizontalBox.setFillHeight(true);
         horizontalBox.getChildren()
                 .addAll(startDeadlockExecButton,
@@ -94,6 +103,54 @@ public class App extends Application {
                         startReadersWritersButton,
                         stopExecButton);
         return horizontalBox;
+    }
+
+    private HBox getSettingsForSynchronizationProblems() {
+        Slider philosopherSlider = createPhilosopherSlider();
+
+        Slider producersConsumersSlider = createProducersConsumersSlider();
+
+        Slider writersReadersSlider = createWritersReadersSlider();
+
+        HBox horizontalBox = new HBox();
+        horizontalBox.getChildren().addAll(philosopherSlider,
+                producersConsumersSlider,
+                writersReadersSlider);
+        horizontalBox.setFillHeight(true);
+        return horizontalBox;
+    }
+
+    private Slider createPhilosopherSlider() {
+        Slider philosopherSlider = new Slider(4, 10, 1);//min,max,thick amount
+        philosopherSlider.setShowTickLabels(true);
+        philosopherSlider.setMajorTickUnit(1);
+        philosopherSlider.setBlockIncrement(1);
+        philosopherSlider.setMinorTickCount(1);
+        philosopherSlider.setMajorTickUnit(1);
+        philosopherSlider.setSnapToTicks(true);
+
+        philosopherSlider.valueProperty().addListener((obs, oldVal, newVal) ->
+        {
+            //philosopherSlider.setValue(newVal.intValue());
+            philosopherSlider.setValue(Math.round(newVal.doubleValue()));
+            numOfPhilosophers = newVal.intValue();
+            philosophersPane.setTotalNumberOfPhilosophers(numOfPhilosophers);
+            philosophersLogic.setNumberOfPhilosophers(numOfPhilosophers);
+        });
+
+        return philosopherSlider;
+    }
+
+    private Slider createProducersConsumersSlider() {
+        Slider producersConsumersSlider = new Slider();
+
+        return producersConsumersSlider;
+    }
+
+    private Slider createWritersReadersSlider() {
+        Slider writersReadersSlider = new Slider();
+
+        return writersReadersSlider;
     }
 
     private Button withGivenLabelCreateButtonAfterSetStyleAndAction(String label) {
@@ -123,6 +180,12 @@ public class App extends Application {
                 break;
             case "Finish":
                 newButton.setOnAction(this::stopButton);
+                break;
+            default:
+                newButton.setOnAction(actionEvent -> {
+                    Alert alert = new Alert(Alert.AlertType.WARNING, "The program malfunction. Please close the application and start again.", ButtonType.OK);
+                    alert.showAndWait();
+                });
                 break;
         }
 
