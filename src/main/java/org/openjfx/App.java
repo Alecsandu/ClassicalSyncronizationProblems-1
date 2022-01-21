@@ -113,6 +113,8 @@ public class App extends Application {
         Slider writersReadersSlider = createWritersReadersSlider();
 
         HBox horizontalBox = new HBox();
+        horizontalBox.setStyle(HORIZONTAL_BOX_DEFAULT_BACKGROUND_COLOR);
+        horizontalBox.setFillHeight(true);
         horizontalBox.getChildren().addAll(philosopherSlider,
                 producersConsumersSlider,
                 writersReadersSlider);
