@@ -1,23 +1,25 @@
 package org.openjfx.producersandconsumersproblem;
 
 public class Producer extends Thread{
-    private Band band;
+    private final Band band;
     private boolean isRunning;
 
     public Producer(Band band){
         this.band = band;
         this.isRunning = true;
     }
+
     @Override
     public void run() {
         while (isRunning) {
-            for (int i = 1; i <= 10; i++)
-                try
-                {
+            for (int i = 1; i <= 10; i++) {
+                try {
                     Thread.sleep((int) (Math.random() * 1000));
                     band.placeObject(true);
+                } catch (InterruptedException exception) {
+                    System.out.println(exception.getMessage());
                 }
-                catch (InterruptedException ignored){}
+            }
         }
     }
 

@@ -29,7 +29,16 @@ public class App extends Application {
 
     private static final int WINDOW_WIDTH = 800;
     private static final int WINDOW_HEIGHT = 600;
-    private static final Background GENERIC_BACKGROUND = new Background(new BackgroundFill(Color.web("#aaabbb"), CornerRadii.EMPTY, Insets.EMPTY));
+    private static final Background GENERIC_BACKGROUND = new Background(new BackgroundFill(Color.web("#93a397"), CornerRadii.EMPTY, Insets.EMPTY));
+    private static final String BUTTON_STATIC_STYLE = "-fx-background-radius: 0;" +
+                    "-fx-background-color: rgb(55, 55, 56);" +
+                    "-fx-text-fill: rgb(220, 220, 220);";
+    private static final String BUTTON_HOVER_STYLE = "-fx-background-radius: 0;" +
+            "-fx-background-color: rgb(85, 85, 85);" +
+            "-fx-text-fill: rgb(220, 220, 220);";
+    private static final String BUTTON_CLICKED_STYLE = "-fx-background-radius: 0;" +
+            "-fx-background-color: rgb(45, 45, 45);" +
+            "-fx-text-fill: rgb(220, 220, 220);";
 
     @Override
     public void start(Stage stage) {
@@ -50,9 +59,12 @@ public class App extends Application {
         readersWritersPane.setBackground(GENERIC_BACKGROUND);
         readersWritersLogic = new ReadersWritersLogic(numOfReaders, numOfWriters, readersWritersPane);
 
+        HBox buttonsBox = getButtonsForPhilosophersProblem();
+        Pane emptyPane = new Pane();
+        emptyPane.setBackground(GENERIC_BACKGROUND);
         stageRootNode = new BorderPane();
-        HBox ButtonsBox = getButtonsForPhilosophersProblem();
-        stageRootNode.setTop(ButtonsBox);
+        stageRootNode.setTop(buttonsBox);
+        stageRootNode.setCenter(emptyPane);
 
         Scene scene = new Scene(stageRootNode, WINDOW_WIDTH, WINDOW_HEIGHT);
         stage.setScene(scene);
@@ -62,29 +74,59 @@ public class App extends Application {
     }
 
     private HBox getButtonsForPhilosophersProblem() {
+        Button startDeadlockExecButton = withGivenLabelCreateButtonAfterSetStyleAndAction("Philosophers-DeadLock");
+
+        Button startCorrectExecutionButton = withGivenLabelCreateButtonAfterSetStyleAndAction("Philosophers-Sync");
+
+        Button startProducerConsumerButton = withGivenLabelCreateButtonAfterSetStyleAndAction("Producers-Consumers");
+
+        Button startReadersWritersButton = withGivenLabelCreateButtonAfterSetStyleAndAction("Readers-Writers");
+
+        Button stopExecButton = withGivenLabelCreateButtonAfterSetStyleAndAction("Finish");
+
         HBox horizontalBox = new HBox();
-        Button startDeadlockExecButton = new Button("Philosophers-DeadLock");
-        startDeadlockExecButton.setOnAction(this::startDeadlockPossibilityButton);
-
-        Button startCorrectExecButton = new Button("Philosophers-Sync");
-        startCorrectExecButton.setOnAction(this::startCorrectSynchronizationButton);
-
-        Button startProducerConsumerButton = new Button("Producers-Consumers");
-        startProducerConsumerButton.setOnAction(this::startProducerConsumer);
-
-        Button startReadersWritersButton = new Button("Readers-Writers");
-        startReadersWritersButton.setOnAction(this::startReadersWriters);
-
-        Button stopExecButton = new Button("Finish");
-        stopExecButton.setOnAction(this::stopButton);
-
+        horizontalBox.setStyle("-fx-background-color: rgb(55, 55, 55);");
+        horizontalBox.setFillHeight(true);
         horizontalBox.getChildren()
                 .addAll(startDeadlockExecButton,
-                        startCorrectExecButton,
+                        startCorrectExecutionButton,
                         startProducerConsumerButton,
                         startReadersWritersButton,
                         stopExecButton);
         return horizontalBox;
+    }
+
+    private Button withGivenLabelCreateButtonAfterSetStyleAndAction(String label) {
+        Button newButton = new Button(label);
+
+        newButton.setPrefHeight(38);
+
+        newButton.setStyle(BUTTON_STATIC_STYLE);
+        newButton.setOnMouseEntered(e -> newButton.setStyle(BUTTON_HOVER_STYLE));
+        newButton.setOnMousePressed(e -> newButton.setStyle(BUTTON_CLICKED_STYLE));
+        newButton.setOnMouseReleased(e -> newButton.setStyle(BUTTON_HOVER_STYLE));
+        newButton.setOnMouseMoved(e -> newButton.setStyle(BUTTON_HOVER_STYLE));
+        newButton.setOnMouseExited(e -> newButton.setStyle(BUTTON_STATIC_STYLE));
+
+        switch (label){
+            case "Philosophers-DeadLock":
+                newButton.setOnAction(this::startDeadlockPossibilityButton);
+                break;
+            case "Philosophers-Sync":
+                newButton.setOnAction(this::startCorrectSynchronizationButton);
+                break;
+            case "Producers-Consumers":
+                newButton.setOnAction(this::startProducerConsumer);
+                break;
+            case "Readers-Writers":
+                newButton.setOnAction(this::startReadersWriters);
+                break;
+            case "Finish":
+                newButton.setOnAction(this::stopButton);
+                break;
+        }
+
+        return newButton;
     }
 
     private void startDeadlockPossibilityButton(ActionEvent actionEvent) {
@@ -127,9 +169,7 @@ public class App extends Application {
         if (buttonIsActive) {
             buttonIsActive = false;
             philosophersLogic.checkThreadsStateAndStopThem();
-
             producerConsumerLogic.stopConsumerAndProducer();
-
             readersWritersLogic.stopReadersWriters();
         }
     }
