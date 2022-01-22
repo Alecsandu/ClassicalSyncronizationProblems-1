@@ -3,19 +3,16 @@ package org.openjfx.philosophersproblem;
 import javafx.scene.paint.Color;
 
 public class PhilosophersPane extends GeometryPane {
-    private boolean isDrawn = false;
 
     public PhilosophersPane(int numberOfPhilosophers, double actualWidth, double actualHeight) {
         super(numberOfPhilosophers, actualWidth, actualHeight);
     }
 
     public void drawInitialFormation() {
-        if (!isDrawn()) {
-            drawTable();
-            drawPhilosophers();
-            drawChopsticks();
-            this.isDrawn = true;
-        }
+        eraseShapes();
+        drawTable();
+        drawPhilosophers();
+        drawChopsticks();
     }
 
     private void drawTable() {
@@ -32,20 +29,6 @@ public class PhilosophersPane extends GeometryPane {
     private void drawChopsticks() {
         setDistanceFromCenter(50);
         drawAllLinesAroundCenter(Color.BLACK);
-    }
-
-    public void recenterPhilosophers() {
-        if (isDrawn()) {
-            setDistanceFromCenter(150);
-            recenterAllCircles();
-        }
-    }
-
-    public void recenterChopsticks() {
-        if (isDrawn()) {
-            setDistanceFromCenter(50);
-            recenterAllLines();
-        }
     }
 
     public synchronized void setPhilosopherColorToThinking(int i) {
@@ -66,13 +49,5 @@ public class PhilosophersPane extends GeometryPane {
 
     public synchronized void setChopstickTaken(int i) {
         setColorOfLine(i, Color.RED);
-    }
-
-    public boolean isDrawn() {
-        return isDrawn;
-    }
-
-    public void setDrawn(boolean drawn) {
-        this.isDrawn = drawn;
     }
 }

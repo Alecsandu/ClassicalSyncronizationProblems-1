@@ -29,8 +29,6 @@ public class App extends Application {
 
     private BorderPane stageRootNode;
 
-    private static Boolean buttonIsActive = false;
-
     private static int numOfPhilosophers = 5;
     private static int bufferSize = 4;
     private static int numOfReaders = 3;
@@ -130,14 +128,12 @@ public class App extends Application {
         philosopherSlider.setMinorTickCount(1);
         philosopherSlider.setMajorTickUnit(1);
         philosopherSlider.setSnapToTicks(true);
+        philosopherSlider.setValue(5);
 
         philosopherSlider.valueProperty().addListener((obs, oldVal, newVal) ->
         {
-            //philosopherSlider.setValue(newVal.intValue());
             philosopherSlider.setValue(Math.round(newVal.doubleValue()));
             numOfPhilosophers = newVal.intValue();
-            philosophersPane.setTotalNumberOfPhilosophers(numOfPhilosophers);
-            philosophersLogic.setNumberOfPhilosophers(numOfPhilosophers);
         });
 
         return philosopherSlider;
@@ -194,27 +190,34 @@ public class App extends Application {
         return newButton;
     }
 
+    private boolean areThreadsAlive() {
+        return philosophersLogic.areThreadsAlive() ||
+                producerConsumerLogic.areThreadsAlive() ||
+                readersWritersLogic.areThreadsAlive();
+    }
+
     private void startDeadlockPossibilityButton(ActionEvent actionEvent) {
-        if (!buttonIsActive) {
-            buttonIsActive = true;
+        if (!areThreadsAlive()) {
             stageRootNode.setCenter(philosophersPane);
+            philosophersPane.setTotalNumberOfPhilosophers(numOfPhilosophers);
+            philosophersLogic.setNumberOfPhilosophers(numOfPhilosophers);
             philosophersPane.drawInitialFormation();
             philosophersLogic.createAndStartDeadlockProtocolThreads();
         }
     }
 
     private void startCorrectSynchronizationButton(ActionEvent actionEvent) {
-        if (!buttonIsActive) {
-            buttonIsActive = true;
+        if (!areThreadsAlive()) {
             stageRootNode.setCenter(philosophersPane);
+            philosophersPane.setTotalNumberOfPhilosophers(numOfPhilosophers);
+            philosophersLogic.setNumberOfPhilosophers(numOfPhilosophers);
             philosophersPane.drawInitialFormation();
             philosophersLogic.createAndStartSynchronizedProtocolThreads();
         }
     }
 
     private void startProducerConsumer(ActionEvent actionEvent) {
-        if (!buttonIsActive) {
-            buttonIsActive = true;
+        if (!areThreadsAlive()) {
             stageRootNode.setCenter(producerConsumerPane);
             producerConsumerPane.drawInitialFormation();
             producerConsumerLogic.createAndStartConsumerProducer();
@@ -222,8 +225,7 @@ public class App extends Application {
     }
 
     private void startReadersWriters(ActionEvent actionEvent){
-        if (!buttonIsActive) {
-            buttonIsActive = true;
+        if (!areThreadsAlive()) {
             stageRootNode.setCenter(readersWritersPane);
             readersWritersPane.drawInitialFormation();
             readersWritersLogic.createAndStartReadersWriters();
@@ -231,12 +233,9 @@ public class App extends Application {
     }
 
     private void stopButton(ActionEvent actionEvent) {
-        if (buttonIsActive) {
-            buttonIsActive = false;
-            philosophersLogic.checkThreadsStateAndStopThem();
-            producerConsumerLogic.stopConsumerAndProducer();
-            readersWritersLogic.stopReadersWriters();
-        }
+        philosophersLogic.checkThreadsStateAndStopThem();
+        producerConsumerLogic.stopConsumerAndProducer();
+        readersWritersLogic.stopReadersWriters();
     }
 
     @Override

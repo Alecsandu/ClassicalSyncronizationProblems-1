@@ -44,6 +44,12 @@ public class ProducerConsumerLogic {
         }
     }
 
+    public boolean areThreadsAlive() {
+        if (producer == null || consumer == null)
+            return false;
+        return  producer.isAlive() || consumer.isAlive();
+    }
+
     public void stopProducer(){
         producer.setRunning(false);
     }

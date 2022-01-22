@@ -3,25 +3,21 @@ package org.openjfx.readersandwritersproblem;
 import javafx.scene.paint.Color;
 
 public class ReadersWritersPane extends GeometryPane {
-    boolean isDrawn;
 
     private final int numberOfReaders;
     private final int numberOfWriters;
 
     public ReadersWritersPane(int numOfReaders, int numOfWriters, double actualWidth, double actualHeight) {
         super(actualWidth, actualHeight);
-        isDrawn = false;
         this.numberOfReaders = numOfReaders;
         this.numberOfWriters = numOfWriters;
     }
 
     public void drawInitialFormation() {
-        if (!isDrawn()) {
-            drawData();
-            drawReaders(numberOfReaders, Color.GREEN);
-            drawWriters(numberOfWriters, Color.GREEN);
-            this.isDrawn = true;
-        }
+        eraseShapes();
+        drawData();
+        drawReaders(numberOfReaders, Color.GREEN);
+        drawWriters(numberOfWriters, Color.GREEN);
     }
 
     public void drawData(){
@@ -47,7 +43,4 @@ public class ReadersWritersPane extends GeometryPane {
     public synchronized void setWriterColorToWriting(int i) {
         setColorOfCircle(i + numberOfReaders + 1, Color.RED);
     }
-
-    public boolean isDrawn() { return isDrawn; }
-
 }

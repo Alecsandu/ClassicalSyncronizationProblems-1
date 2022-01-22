@@ -3,7 +3,6 @@ package org.openjfx.readersandwritersproblem;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
-import java.util.stream.IntStream;
 
 public class ReadersWritersLogic {
     private final int numberOfReaders;
@@ -38,23 +37,34 @@ public class ReadersWritersLogic {
         writersList.forEach(Writer::start);
     }
 
-    public void createReaders(){
+    public void createReaders() {
+        readersList.clear();
         for (int i = 0; i < numberOfReaders; i++){
             readersList.add(new Reader(i,this));
         }
     }
 
-    public void createWriters(){
+    public void createWriters() {
+        writersList.clear();
         for (int i = 0; i < numberOfWriters; i++){
             writersList.add(new Writer(i,this));
         }
     }
 
     public void stopReadersWriters(){
-        IntStream.range(0, readersList.size()).forEach(i -> readersList.get(i).setRunning(false));
-        IntStream.range(0, writersList.size()).forEach(i -> writersList.get(i).setRunning(false));
-        readersList.clear();
-        writersList.clear();
+        readersList.forEach(thread -> thread.setRunning(false));
+        writersList.forEach(thread -> thread.setRunning(false));
+    }
+
+    public boolean areThreadsAlive() {
+        final boolean[] result = {false};
+        readersList.forEach(thread -> {
+            result[0] = result[0] || thread.isAlive();
+        });
+        writersList.forEach(thread -> {
+            result[0] = result[0] || thread.isAlive();
+        });
+        return result[0];
     }
 
     public void incrementReaders() { readersCount += 1; }

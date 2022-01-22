@@ -37,10 +37,12 @@ public class PhilosophersLogic {
     }
 
     public void createDeadlockThreads() {
+        threadList.clear();
         IntStream.range(0, numberOfPhilosophers).forEach(i -> threadList.add(new DeadlockedPhilosopher(i, this)));
     }
 
     public void createFixedThreads() {
+        threadList.clear();
         IntStream.range(0, numberOfPhilosophers).forEach(i -> threadList.add(new SynchronizedPhilosopher(i, this)));
     }
 
@@ -53,8 +55,7 @@ public class PhilosophersLogic {
     }
 
     public void closeThreads() {
-        IntStream.range(0, threadList.size()).forEach(i -> threadList.get(i).setRunning(false));
-        threadList.clear();
+        threadList.forEach(thread -> thread.setRunning(false));
     }
 
     public PhilosophersPane getPhilosophersPane() {
@@ -71,6 +72,14 @@ public class PhilosophersLogic {
 
     public void setNumberOfPhilosophers(int numberOfPhilosophers) {
         this.numberOfPhilosophers = numberOfPhilosophers;
+    }
+
+    public boolean areThreadsAlive() {
+        final boolean[] result = {false};
+        threadList.forEach(thread -> {
+            result[0] = result[0] || thread.isAlive();
+        });
+        return result[0];
     }
 
     public void checkThreadsStateAndStopThem() {

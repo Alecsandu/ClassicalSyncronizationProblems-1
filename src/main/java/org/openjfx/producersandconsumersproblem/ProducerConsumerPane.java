@@ -5,29 +5,19 @@ import javafx.scene.paint.Color;
 import java.util.ArrayList;
 
 public class ProducerConsumerPane extends GeometryPane {
-    private boolean isDrawn = false;
 
     public ProducerConsumerPane(int bufferSize, double actualWidth, double actualHeight) {
         super(bufferSize, actualWidth, actualHeight);
     }
 
     public void drawInitialFormation() {
-        if (!isDrawn()) {
-            drawBuffer();
-            setDrawn(true);
-        }
+        eraseShapes();
+        drawBuffer();
     }
 
     private void drawBuffer() {
         setSquareLength(100);
         drawAllSquares(Color.RED);
-    }
-
-    public void recenterSquares() {
-        if (isDrawn()) {
-            setSquareLength(100);
-            recenterAllSquares();
-        }
     }
 
     public synchronized void refillRectanglesAccordingToBand(ArrayList<Boolean> positions, int bufferSize){
@@ -50,13 +40,5 @@ public class ProducerConsumerPane extends GeometryPane {
 
     public void setSpotToOccupied(int i){
         setFillOfRectangle(i, Color.GREEN);
-    }
-
-    public boolean isDrawn() {
-        return isDrawn;
-    }
-
-    public void setDrawn(boolean drawn) {
-        isDrawn = drawn;
     }
 }
