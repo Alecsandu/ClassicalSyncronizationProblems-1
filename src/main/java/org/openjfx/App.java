@@ -11,15 +11,12 @@ import javafx.scene.control.Slider;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.util.StringConverter;
 import org.openjfx.philosophersproblem.PhilosophersLogic;
 import org.openjfx.philosophersproblem.PhilosophersPane;
 import org.openjfx.producersandconsumersproblem.ProducerConsumerLogic;
 import org.openjfx.producersandconsumersproblem.ProducerConsumerPane;
 import org.openjfx.readersandwritersproblem.ReadersWritersLogic;
 import org.openjfx.readersandwritersproblem.ReadersWritersPane;
-
-import java.util.Objects;
 
 public class App extends Application {
     private PhilosophersLogic philosophersLogic;
@@ -39,15 +36,17 @@ public class App extends Application {
     private static final int WINDOW_WIDTH = 800;
     private static final int WINDOW_HEIGHT = 600;
     private static final Background GENERIC_BACKGROUND = new Background(new BackgroundFill(Color.web("#B4B4B4"), CornerRadii.EMPTY, Insets.EMPTY));
+    private static final String DEFAULT_TEXT_FILL_COLOR = "-fx-text-fill: rgb(220, 220, 220);";
+    private static final String SLIDER_TEXT_FILL_COLOR = "-fx-tick-label-fill: rgb(250, 0, 0);";
     private static final String BUTTON_STATIC_STYLE = "-fx-background-radius: 0;" +
             "-fx-background-color: rgb(55, 55, 56);" +
-            "-fx-text-fill: rgb(220, 220, 220);";
+            DEFAULT_TEXT_FILL_COLOR;
     private static final String BUTTON_HOVER_STYLE = "-fx-background-radius: 0;" +
             "-fx-background-color: rgb(85, 85, 85);" +
-            "-fx-text-fill: rgb(220, 220, 220);";
+            DEFAULT_TEXT_FILL_COLOR;
     private static final String BUTTON_CLICKED_STYLE = "-fx-background-radius: 0;" +
             "-fx-background-color: rgb(45, 45, 45);" +
-            "-fx-text-fill: rgb(220, 220, 220);";
+            DEFAULT_TEXT_FILL_COLOR;
     private static final String HORIZONTAL_BOX_DEFAULT_BACKGROUND_COLOR = "-fx-background-color: rgb(55, 55, 55);";
 
     @Override
@@ -124,12 +123,7 @@ public class App extends Application {
 
     private Slider createPhilosopherSlider() {
         Slider philosopherSlider = new Slider(4, 10, 1);//min,max,thick amount
-        philosopherSlider.setShowTickLabels(true);
-        philosopherSlider.setMajorTickUnit(1);
-        philosopherSlider.setBlockIncrement(1);
-        philosopherSlider.setMinorTickCount(0);
-        philosopherSlider.setMajorTickUnit(1);
-        philosopherSlider.setSnapToTicks(true);
+        setSliderProps(philosopherSlider);
         philosopherSlider.setValue(numOfPhilosophers);
 
         philosopherSlider.valueProperty().addListener((obs, oldVal, newVal) ->
@@ -141,15 +135,39 @@ public class App extends Application {
     }
 
     private Slider createProducersConsumersSlider() {
-        Slider producersConsumersSlider = new Slider();
+        Slider producersConsumersSlider = new Slider(4, 6, 1);
+        setSliderProps(producersConsumersSlider);
+        producersConsumersSlider.setValue(bufferSize);
+
+        producersConsumersSlider.valueProperty().addListener((obs, oldVal, newVal) ->
+        {
+            bufferSize = newVal.intValue();
+        });
 
         return producersConsumersSlider;
     }
 
     private Slider createWritersReadersSlider() {
-        Slider writersReadersSlider = new Slider();
+        Slider writersReadersSlider = new Slider(3, 6, 1);
+        setSliderProps(writersReadersSlider);
+        writersReadersSlider.setValue(numOfWriters);
+
+        writersReadersSlider.valueProperty().addListener((obs, oldVal, newVal) ->
+        {
+            numOfReaders = newVal.intValue();
+            numOfWriters = newVal.intValue();
+        });
 
         return writersReadersSlider;
+    }
+
+    private void setSliderProps(Slider slider) {
+        slider.setShowTickLabels(true);
+        slider.setMajorTickUnit(1);
+        slider.setBlockIncrement(1);
+        slider.setMinorTickCount(0);
+        slider.setMajorTickUnit(1);
+        slider.setSnapToTicks(true);
     }
 
     private Button withGivenLabelCreateButtonAfterSetStyleAndAction(String label) {
@@ -191,14 +209,14 @@ public class App extends Application {
         return newButton;
     }
 
-    private boolean areThreadsAlive() {
+    private boolean areAnyThreadsAlive() {
         return philosophersLogic.areThreadsAlive() ||
                 producerConsumerLogic.areThreadsAlive() ||
                 readersWritersLogic.areThreadsAlive();
     }
 
     private void startDeadlockPossibilityButton(ActionEvent actionEvent) {
-        if (!areThreadsAlive()) {
+        if (!areAnyThreadsAlive()) {
             stageRootNode.setCenter(philosophersPane);
             philosophersPane.setTotalNumberOfPhilosophers(numOfPhilosophers);
             philosophersLogic.setNumberOfPhilosophers(numOfPhilosophers);
@@ -208,7 +226,7 @@ public class App extends Application {
     }
 
     private void startCorrectSynchronizationButton(ActionEvent actionEvent) {
-        if (!areThreadsAlive()) {
+        if (!areAnyThreadsAlive()) {
             stageRootNode.setCenter(philosophersPane);
             philosophersPane.setTotalNumberOfPhilosophers(numOfPhilosophers);
             philosophersLogic.setNumberOfPhilosophers(numOfPhilosophers);
@@ -218,7 +236,7 @@ public class App extends Application {
     }
 
     private void startProducerConsumer(ActionEvent actionEvent) {
-        if (!areThreadsAlive()) {
+        if (!areAnyThreadsAlive()) {
             stageRootNode.setCenter(producerConsumerPane);
             producerConsumerPane.drawInitialFormation();
             producerConsumerLogic.createAndStartConsumerProducer();
@@ -226,7 +244,7 @@ public class App extends Application {
     }
 
     private void startReadersWriters(ActionEvent actionEvent){
-        if (!areThreadsAlive()) {
+        if (!areAnyThreadsAlive()) {
             stageRootNode.setCenter(readersWritersPane);
             readersWritersPane.drawInitialFormation();
             readersWritersLogic.createAndStartReadersWriters();
