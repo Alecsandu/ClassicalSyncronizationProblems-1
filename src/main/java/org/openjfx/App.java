@@ -19,6 +19,8 @@ import org.openjfx.producersandconsumersproblem.ProducerConsumerPane;
 import org.openjfx.readersandwritersproblem.ReadersWritersLogic;
 import org.openjfx.readersandwritersproblem.ReadersWritersPane;
 
+import java.util.Objects;
+
 public class App extends Application {
     private PhilosophersLogic philosophersLogic;
     private PhilosophersPane philosophersPane;
@@ -125,14 +127,13 @@ public class App extends Application {
         philosopherSlider.setShowTickLabels(true);
         philosopherSlider.setMajorTickUnit(1);
         philosopherSlider.setBlockIncrement(1);
-        philosopherSlider.setMinorTickCount(1);
+        philosopherSlider.setMinorTickCount(0);
         philosopherSlider.setMajorTickUnit(1);
         philosopherSlider.setSnapToTicks(true);
-        philosopherSlider.setValue(5);
+        philosopherSlider.setValue(numOfPhilosophers);
 
         philosopherSlider.valueProperty().addListener((obs, oldVal, newVal) ->
         {
-            philosopherSlider.setValue(Math.round(newVal.doubleValue()));
             numOfPhilosophers = newVal.intValue();
         });
 
