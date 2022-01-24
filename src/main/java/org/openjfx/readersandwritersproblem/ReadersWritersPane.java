@@ -4,8 +4,8 @@ import javafx.scene.paint.Color;
 
 public class ReadersWritersPane extends GeometryPane {
 
-    private final int numberOfReaders;
-    private final int numberOfWriters;
+    private int numberOfReaders;
+    private int numberOfWriters;
 
     public ReadersWritersPane(int numOfReaders, int numOfWriters, double actualWidth, double actualHeight) {
         super(actualWidth, actualHeight);
@@ -42,5 +42,13 @@ public class ReadersWritersPane extends GeometryPane {
     }
     public synchronized void setWriterColorToWriting(int i) {
         setColorOfCircle(i + numberOfReaders + 1, Color.RED);
+    }
+
+    public void setNumberOfReaders(int n) {
+        numberOfReaders = n;
+    }
+
+    public void setNumberOfWriters(int n) {
+        numberOfWriters = n;
     }
 }

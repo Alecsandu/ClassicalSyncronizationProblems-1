@@ -1,7 +1,7 @@
 package org.openjfx.producersandconsumersproblem;
 
 public class ProducerConsumerLogic {
-    private final Integer bufferSize;
+    private Integer bufferSize;
     private final ProducerConsumerPane producerConsumerPane;
     private Producer producer;
     private Consumer consumer;
@@ -56,6 +56,10 @@ public class ProducerConsumerLogic {
 
     public void stopConsumer(){
         consumer.setRunning(false);
+    }
+
+    public void setBufferSize(int bufferSize) {
+        this.bufferSize = bufferSize;
     }
 
 }

@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.concurrent.Semaphore;
 
 public class ReadersWritersLogic {
-    private final int numberOfReaders;
-    private final int numberOfWriters;
+    private int numberOfReaders;
+    private int numberOfWriters;
     private final List<Reader> readersList;
     private final List<Writer> writersList;
 
@@ -89,5 +89,13 @@ public class ReadersWritersLogic {
 
     public void setWritersSemaphore(Semaphore writersSemaphore) {
         this.writersSemaphore = writersSemaphore;
+    }
+
+    public void setNumberOfReaders(int n) {
+        numberOfReaders = n;
+    }
+
+    public void setNumberOfWriters(int n) {
+        numberOfWriters = n;
     }
 }

@@ -238,6 +238,8 @@ public class App extends Application {
     private void startProducerConsumer(ActionEvent actionEvent) {
         if (!areAnyThreadsAlive()) {
             stageRootNode.setCenter(producerConsumerPane);
+            producerConsumerPane.setBufferSize(bufferSize);
+            producerConsumerLogic.setBufferSize(bufferSize);
             producerConsumerPane.drawInitialFormation();
             producerConsumerLogic.createAndStartConsumerProducer();
         }
@@ -246,6 +248,10 @@ public class App extends Application {
     private void startReadersWriters(ActionEvent actionEvent){
         if (!areAnyThreadsAlive()) {
             stageRootNode.setCenter(readersWritersPane);
+            readersWritersPane.setNumberOfReaders(numOfReaders);
+            readersWritersPane.setNumberOfWriters(numOfWriters);
+            readersWritersLogic.setNumberOfReaders(numOfReaders);
+            readersWritersLogic.setNumberOfWriters(numOfWriters);
             readersWritersPane.drawInitialFormation();
             readersWritersLogic.createAndStartReadersWriters();
         }

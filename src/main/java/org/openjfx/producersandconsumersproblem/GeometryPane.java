@@ -7,7 +7,7 @@ import org.openjfx.geometry.ShapePane;
 import java.util.stream.IntStream;
 
 public class GeometryPane extends ShapePane {
-    private final int bufferSize;
+    private int bufferSize;
     private int squareLength;
 
     public GeometryPane(int bufferSize, double actualWidth, double actualHeight) {
@@ -51,5 +51,9 @@ public class GeometryPane extends ShapePane {
 
     public void setSquareLength(int squareLength) {
         this.squareLength = squareLength;
+    }
+
+    public void setBufferSize(int bufferSize) {
+        this.bufferSize = bufferSize;
     }
 }
