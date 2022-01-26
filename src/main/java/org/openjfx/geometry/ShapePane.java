@@ -18,13 +18,12 @@ public class ShapePane extends Pane {
         this.paneHeight = height;
     }
 
-    public final Circle drawCircle(Point point, double radius, Color color) {
+    public final void drawCircle(Point point, double radius, Color color) {
         Circle circle = new Circle();
         circle.setFill(color);
         circle.setRadius(radius);
         setCenterOfCircle(circle, point);
         this.getChildren().add(circle);
-        return circle;
     }
 
     public final void drawLine(Point p1, Point p2, Color color) {

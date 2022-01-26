@@ -17,7 +17,7 @@ public class PhilosophersPane extends GeometryPane {
 
     private void drawTable() {
         setCircleRadius(100);
-        drawCircleInCenter(Color.GREY);
+        drawCircleInCenter(Color.GRAY);
     }
 
     private void drawPhilosophers() {

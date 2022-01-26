@@ -1,7 +1,6 @@
 package org.openjfx.readersandwritersproblem;
 
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import org.openjfx.geometry.Point;
 import org.openjfx.geometry.ShapePane;
 
@@ -15,7 +14,7 @@ public class GeometryPane extends ShapePane {
 
     public void drawCircleInCenter(Color color) {
         Point centre = getCentrePoint();
-        Circle centralCircle = drawCircle(centre, circleRadius, color);
+        drawCircle(centre, circleRadius, color);
     }
 
     public void drawReaders(int numberOfCircles, Color color){

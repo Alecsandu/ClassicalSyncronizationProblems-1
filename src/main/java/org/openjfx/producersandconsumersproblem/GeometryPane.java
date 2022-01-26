@@ -13,7 +13,7 @@ public class GeometryPane extends ShapePane {
     public GeometryPane(int bufferSize, double actualWidth, double actualHeight) {
         super(actualWidth, actualHeight);
         this.bufferSize = bufferSize;
-        this.squareLength = 100;    //I don't know why you chose to set this to 100
+        this.squareLength = 100;
     }
 
     public void drawAllSquares(Color color) {

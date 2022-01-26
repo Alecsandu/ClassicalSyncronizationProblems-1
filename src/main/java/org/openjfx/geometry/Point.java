@@ -24,21 +24,4 @@ public class Point {
     public void setY(double y) {
         this.y = y;
     }
-
-    public void moveHigher(double y) {
-        this.y = this.y - y;
-    }
-
-    public void moveLower(double y) {
-        this.y = this.y + y;
-    }
-
-    public void moveLeft(double x) {
-        this.x = this.x - x;
-    }
-
-    public void moveRight(double x) {
-        this.x = this.x + x;
-    }
-
 }

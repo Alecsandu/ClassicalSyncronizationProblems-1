@@ -3,7 +3,6 @@ package org.openjfx.readersandwritersproblem;
 import javafx.scene.paint.Color;
 
 public class ReadersWritersPane extends GeometryPane {
-
     private int numberOfReaders;
     private int numberOfWriters;
 
@@ -22,7 +21,7 @@ public class ReadersWritersPane extends GeometryPane {
 
     public void drawData(){
         setCircleRadius(100);
-        drawCircleInCenter(Color.GREY);
+        drawCircleInCenter(Color.GRAY);
     }
 
     public synchronized void setReaderColorToThinking(int i) {

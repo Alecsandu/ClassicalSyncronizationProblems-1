@@ -3,6 +3,7 @@ package org.openjfx.readersandwritersproblem;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ReadersWritersLogic {
     private int numberOfReaders;
@@ -22,9 +23,9 @@ public class ReadersWritersLogic {
         this.readersList = new ArrayList<>();
         this.writersList = new ArrayList<>();
 
-        readersSemaphore = new Semaphore(1);
-        writersSemaphore = new Semaphore(1);
-        readersCount = 0;
+        this.readersSemaphore = new Semaphore(1);
+        this.writersSemaphore = new Semaphore(1);
+        this.readersCount = 0;
 
         this.readersWritersPane = readersWritersPane;
     }
@@ -56,15 +57,11 @@ public class ReadersWritersLogic {
         writersList.forEach(thread -> thread.setRunning(false));
     }
 
-    public boolean areThreadsAlive() {
-        final boolean[] result = {false};
-        readersList.forEach(thread -> {
-            result[0] = result[0] || thread.isAlive();
-        });
-        writersList.forEach(thread -> {
-            result[0] = result[0] || thread.isAlive();
-        });
-        return result[0];
+    public boolean allThreadsFinished() {
+        AtomicBoolean result = new AtomicBoolean(false);
+        readersList.forEach(thread -> result.set(result.get() || thread.isAlive()));
+        writersList.forEach(thread -> result.set(result.get() || thread.isAlive()));
+        return !result.get();
     }
 
     public void incrementReaders() { readersCount += 1; }

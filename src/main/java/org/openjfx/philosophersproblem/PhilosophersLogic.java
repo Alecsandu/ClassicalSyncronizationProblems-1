@@ -2,6 +2,7 @@ package org.openjfx.philosophersproblem;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.IntStream;
 
@@ -58,14 +59,6 @@ public class PhilosophersLogic {
         threadList.forEach(thread -> thread.setRunning(false));
     }
 
-    public PhilosophersPane getPhilosophersPane() {
-        return philosophersPane;
-    }
-
-    public ReentrantLock getMutex(int i) {
-        return mutexes.get(i);
-    }
-
     public int getNumberOfPhilosophers() {
         return numberOfPhilosophers;
     }
@@ -74,12 +67,18 @@ public class PhilosophersLogic {
         this.numberOfPhilosophers = numberOfPhilosophers;
     }
 
-    public boolean areThreadsAlive() {
-        final boolean[] result = {false};
-        threadList.forEach(thread -> {
-            result[0] = result[0] || thread.isAlive();
-        });
-        return result[0];
+    public PhilosophersPane getPhilosophersPane() {
+        return philosophersPane;
+    }
+
+    public ReentrantLock getMutex(int i) {
+        return mutexes.get(i);
+    }
+
+    public boolean allThreadsFinished() {
+        AtomicBoolean threadsAreRunning = new AtomicBoolean(false);
+        threadList.forEach(thread -> threadsAreRunning.set(threadsAreRunning.get() || thread.isAlive()));
+        return !threadsAreRunning.get();
     }
 
     public void checkThreadsStateAndStopThem() {

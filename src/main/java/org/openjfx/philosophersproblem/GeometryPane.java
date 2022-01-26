@@ -1,7 +1,6 @@
 package org.openjfx.philosophersproblem;
 
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import org.openjfx.geometry.Point;
 import org.openjfx.geometry.ShapePane;
 
@@ -12,7 +11,6 @@ public class GeometryPane extends ShapePane {
     private double lineLength;
     private double distanceFromCenter;
     private int totalNumberOfPhilosophers;
-    private Circle centralCircle;
 
     public GeometryPane(int numberOfPhilosophers, double actualWidth, double actualHeight) {
         super(actualWidth, actualHeight);
@@ -24,7 +22,7 @@ public class GeometryPane extends ShapePane {
 
     public void drawCircleInCenter(Color color) {
         Point centre = getCentrePoint();
-        centralCircle = drawCircle(centre, circleRadius, color);
+        drawCircle(centre, circleRadius, color);
     }
 
     public void drawAllCirclesAroundCenter(Color color) {
@@ -71,13 +69,13 @@ public class GeometryPane extends ShapePane {
 
     public void recenterAllCircles() {
         setCenterOfCircle(0, getCentrePoint());
-        IntStream.range(1, totalNumberOfPhilosophers + 1).forEach(i ->
-                setCenterOfCircle(i, getCenterOfCircleAroundCenter(i)));
+        IntStream.range(1, totalNumberOfPhilosophers + 1)
+                .forEach(i -> setCenterOfCircle(i, getCenterOfCircleAroundCenter(i)));
     }
 
     public void recenterAllLines() {
-        IntStream.range(0, totalNumberOfPhilosophers).forEach(i ->
-                setEndpointsOfLine(i, getStartOfLineAroundCenter(i), getEndOfLineAroundCenter(i)));
+        IntStream.range(0, totalNumberOfPhilosophers)
+                .forEach(i -> setEndpointsOfLine(i, getStartOfLineAroundCenter(i), getEndOfLineAroundCenter(i)));
     }
 
     public double getCircleRadius() {
@@ -110,9 +108,5 @@ public class GeometryPane extends ShapePane {
 
     public void setDistanceFromCenter(double distanceFromCenter) {
         this.distanceFromCenter = distanceFromCenter;
-    }
-
-    public Circle getCentralCircle() {
-        return centralCircle;
     }
 }

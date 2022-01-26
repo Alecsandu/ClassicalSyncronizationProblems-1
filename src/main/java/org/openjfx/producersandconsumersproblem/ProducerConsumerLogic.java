@@ -44,10 +44,10 @@ public class ProducerConsumerLogic {
         }
     }
 
-    public boolean areThreadsAlive() {
-        if (producer == null || consumer == null)
-            return false;
-        return  producer.isAlive() || consumer.isAlive();
+    public boolean allThreadsFinished() {
+        if (producer == null | consumer == null)
+            return true;
+        return !producer.isAlive() && !consumer.isAlive();
     }
 
     public void stopProducer(){

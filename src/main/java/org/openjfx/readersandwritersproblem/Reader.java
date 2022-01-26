@@ -41,7 +41,7 @@ public class Reader extends Thread {
     private void read() throws InterruptedException {
         parent.getReadersWritersPane().setReaderColorToReading(readerId);
         System.out.println("Reader " + readerId + " is reading.");
-        Thread.sleep(3000);  // changed it from 4000
+        Thread.sleep(3000);
         parent.getReadersSemaphore().acquire();
         parent.decrementReaders();
         if (parent.getReadersCount() == 0)

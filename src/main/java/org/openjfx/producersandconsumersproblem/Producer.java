@@ -15,7 +15,7 @@ public class Producer extends Thread{
             for (int i = 1; i <= 10; i++) {
                 try {
                     Thread.sleep((int) (Math.random() * 1000));
-                    band.placeObject(true);
+                    band.placeObject();
                 } catch (InterruptedException exception) {
                     System.out.println(exception.getMessage());
                 }

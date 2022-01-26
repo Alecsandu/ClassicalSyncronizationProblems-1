@@ -9,7 +9,7 @@ public class Band {
 
     public Band(int maxBandDimension, ProducerConsumerPane producerConsumerPane)
     {
-        band = new ArrayList<>(maxBandDimension);
+        this.band = new ArrayList<>(maxBandDimension);
         this.maxBandDimension = maxBandDimension;
         this.initializeBand();
         this.producerConsumerPane = producerConsumerPane;
@@ -46,7 +46,7 @@ public class Band {
         this.band.set(idx, Boolean.TRUE);
     }
 
-    public synchronized void placeObject(boolean x) throws InterruptedException
+    public synchronized void placeObject() throws InterruptedException
     {
         while (isBandFull()) {
             wait();
